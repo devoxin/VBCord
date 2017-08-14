@@ -1,0 +1,3 @@
+﻿-> Resolve mentions as usernames in message text
+-> Drag/Resize on custom form
+-> Fix channel-ordering based on positions
