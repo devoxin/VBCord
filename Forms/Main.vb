@@ -12,6 +12,8 @@ Public Class Main
     Dim voiceConnection As Audio.IAudioClient
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        CheckForUpdates()
+
         CheckForIllegalCrossThreadCalls = False ' This is temporary... pls don't hurt me
         Dim token = InputBox("Enter your bot's token")
         Try

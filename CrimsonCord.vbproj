@@ -117,8 +117,9 @@
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="SelfUserEditor">
-      <HintPath>C:\Users\Luke\Documents\Visual Studio 2017\Projects\SelfUserEditor\SelfUserEditor\bin\Debug\SelfUserEditor.dll</HintPath>
+    <Reference Include="SelfUserEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Dependencies\SelfUserEditor.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -164,6 +165,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationF.vb" />
     <Compile Include="Forms\Main.vb">
       <SubType>Form</SubType>
     </Compile>
