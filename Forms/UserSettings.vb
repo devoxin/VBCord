@@ -21,11 +21,9 @@ Public Class UserSettings
 
         If ofd.ShowDialog = DialogResult.OK Then
             Dim res As Boolean = Await EditUser(Main.Discord.CurrentUser, ofd.FileName, Nothing)
-            If (res) Then
-                CircularPictureBox1.ImageLocation = Main.Discord.CurrentUser.GetAvatarUrl()
-                Main.UserAvatar.ImageLocation = Main.Discord.CurrentUser.GetAvatarUrl()
-                Application.DoEvents()
-            End If
+            CircularPictureBox1.ImageLocation = Main.Discord.CurrentUser.GetAvatarUrl()
+            Main.UserAvatar.ImageLocation = Main.Discord.CurrentUser.GetAvatarUrl()
+            Application.DoEvents()
         End If
     End Sub
 
@@ -33,11 +31,9 @@ Public Class UserSettings
         If e.KeyChar = ChrW(Keys.Enter) Then
             e.Handled = True
             Dim res As Boolean = Await EditUser(Main.Discord.CurrentUser, Nothing, TextBox1.Text)
-            If (res) Then
-                Main.Username.Text = Main.Discord.CurrentUser.Username
-                Main.UserDiscrim.Text = Main.Discord.CurrentUser.Discriminator
-                Application.DoEvents()
-            End If
+            Main.Username.Text = Main.Discord.CurrentUser.Username
+            Main.UserDiscrim.Text = Main.Discord.CurrentUser.Discriminator
+            Application.DoEvents()
         End If
     End Sub
 End Class
