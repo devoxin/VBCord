@@ -35,17 +35,17 @@ Module ApplicationF
     End Function
 
     Public Function ResolveTime(ByVal time As DateTimeOffset)
-        Dim localTime = time.ToLocalTime()
 
+        Dim localTime = time.ToLocalTime()
         Dim timestring As String = ""
 
         If localTime.Date = Date.Today.Date Then
             timestring += "Today at "
         Else
-            timestring += $"{localTime.Date} at "
+            timestring += $"{localTime.Date.ToShortDateString()} at "
         End If
 
-        timestring += $"{localTime.Hour}:{localTime.Minute}"
+        timestring += localTime.DateTime.ToString("HH:mm")
 
         Return timestring
 

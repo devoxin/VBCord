@@ -92,9 +92,9 @@ Partial Class Main
         Me.Title.ForeColor = System.Drawing.Color.White
         Me.Title.Location = New System.Drawing.Point(0, 0)
         Me.Title.Name = "Title"
-        Me.Title.Size = New System.Drawing.Size(92, 27)
+        Me.Title.Size = New System.Drawing.Size(237, 27)
         Me.Title.TabIndex = 0
-        Me.Title.Text = "CrimsonCord"
+        Me.Title.Text = "VBCord (Developed by Devoxin#0387)"
         Me.Title.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'DividerTitle
@@ -360,7 +360,8 @@ Partial Class Main
         Me.Controls.Add(Me.TitleBar)
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "Main"
-        Me.Text = "DITHCORD PANEL"
+        Me.ShowIcon = False
+        Me.Text = "VBCord"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.TitleBar.ResumeLayout(False)
         Me.ChannelContainer.ResumeLayout(False)
