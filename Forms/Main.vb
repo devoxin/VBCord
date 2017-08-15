@@ -113,7 +113,7 @@ Public Class Main
                             attachment = m.Attachments(0).Url
                         End If
                     End If
-                    AddMessage(m.Author, m.Content, attachment, m)
+                    AddMessage(m.Author, ResolveRestMentions(m), attachment, m)
                     Refresh()
                     Application.DoEvents()
                 Catch ex As Exception

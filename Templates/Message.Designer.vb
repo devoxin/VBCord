@@ -34,16 +34,15 @@ Partial Class Message
         '
         'Label1
         '
+        Me.Label1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Label1.AutoEllipsis = True
-        Me.Label1.AutoSize = True
         Me.Label1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Label1.Dock = System.Windows.Forms.DockStyle.Left
         Me.Label1.Font = New System.Drawing.Font("Open Sans Light", 13.0!)
         Me.Label1.ForeColor = System.Drawing.Color.White
         Me.Label1.Location = New System.Drawing.Point(40, 0)
-        Me.Label1.MaximumSize = New System.Drawing.Size(348, 20)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(95, 20)
+        Me.Label1.Size = New System.Drawing.Size(461, 20)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Username"
         '
@@ -71,12 +70,14 @@ Partial Class Message
         '
         'Timestamp
         '
+        Me.Timestamp.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Timestamp.AutoSize = True
         Me.Timestamp.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.Timestamp.Dock = System.Windows.Forms.DockStyle.Left
         Me.Timestamp.Font = New System.Drawing.Font("Open Sans Light", 9.0!)
         Me.Timestamp.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
-        Me.Timestamp.Location = New System.Drawing.Point(135, 0)
+        Me.Timestamp.Location = New System.Drawing.Point(41, 21)
         Me.Timestamp.Name = "Timestamp"
         Me.Timestamp.Size = New System.Drawing.Size(109, 17)
         Me.Timestamp.TabIndex = 2

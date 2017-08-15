@@ -35,6 +35,24 @@ Module ApplicationF
 
     End Function
 
+    Public Function ResolveRestMentions(ByVal msg As IMessage)
+
+        Dim content As String = msg.Content
+
+        For Each u In msg.MentionedUserIds
+            Dim user = Main.Discord.GetUser(u)
+            content = New Regex($"<@!?{u}>").Replace(content, $"@{IIf(user IsNot Nothing, user.Username, "Invalid-User")}")
+        Next
+
+        For Each c In msg.MentionedChannelIds
+            Dim channel = Main.Discord.GetChannel(c)
+            content = New Regex($"<#{c}>").Replace(content, $"#{IIf(channel IsNot Nothing, DirectCast(channel, IGuildChannel).Name, "Invalid-Channel")}")
+        Next
+
+        Return content
+
+    End Function
+
     Public Function ResolveTime(ByVal time As DateTimeOffset)
 
         Dim localTime = time.ToLocalTime()
