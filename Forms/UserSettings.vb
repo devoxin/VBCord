@@ -36,4 +36,5 @@ Public Class UserSettings
             Application.DoEvents()
         End If
     End Sub
+
 End Class

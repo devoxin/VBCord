@@ -7,7 +7,7 @@
     Protected Overrides Sub OnPaint(pe As PaintEventArgs)
 
         Using gp = New Drawing2D.GraphicsPath
-            gp.AddEllipse(0, 0, Width - 1, Height - 1)
+            gp.AddEllipse(0, 0, Width, Height)
             Region = New Region(gp)
         End Using
 

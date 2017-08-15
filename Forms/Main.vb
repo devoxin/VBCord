@@ -5,7 +5,10 @@ Imports Discord
 Imports Discord.WebSocket
 
 Public Class Main
-    Public WithEvents Discord As DiscordSocketClient
+    Public WithEvents Discord As DiscordSocketClient = New DiscordSocketClient(New DiscordSocketConfig With {
+                                                                               .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
+                                                                               .MessageCacheSize = 100
+                                                                               })
 
     Dim focussedServer As ULong
     Dim focussedChannel As ULong
@@ -13,23 +16,25 @@ Public Class Main
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CheckForUpdates()
-
         CheckForIllegalCrossThreadCalls = False ' This is temporary... pls don't hurt me
-        Dim token = InputBox("Enter your bot's token")
-        Try
-            Discord = New DiscordSocketClient(New DiscordSocketConfig With {
-                                              .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
-                                              .MessageCacheSize = 100
-                                          })
 
-            Await Discord.LoginAsync(TokenType.Bot, token)
-            Await Discord.StartAsync()
-        Catch ex As Exception
-            MsgBox("Invalid token specified, or an error occurred!")
-        End Try
+        Dim loginDialog As New Login
+        If loginDialog.ShowDialog() = DialogResult.OK Then
+            Try
+                If loginDialog.tokenType = "Bot" Then
+                    Await Discord.LoginAsync(TokenType.Bot, loginDialog.token)
+                    Await Discord.StartAsync()
+                Else
+                    ' TODO: Add user-login support
+                End If
+            Catch ex As Exception
+                Console.WriteLine($"{ex.Message}{vbNewLine}{ex.StackTrace}")
+                MsgBox("An invalid token was specified, or an error occurred.")
+            End Try
+        End If
     End Sub
 
-    Private Async Sub SwitchServer(ByVal sender As Object, e As System.EventArgs)
+    Private Async Sub SwitchServer(ByVal sender As Object, e As EventArgs)
         Dim pb = DirectCast(sender, PictureBox)
         Dim id As ULong = pb.Tag
         focussedServer = id
@@ -73,7 +78,7 @@ Public Class Main
         Next
     End Sub
 
-    Private Async Sub SwitchChannel(ByVal sender As Object, e As System.EventArgs)
+    Private Async Sub SwitchChannel(ByVal sender As Object, e As EventArgs)
         Dim btn = DirectCast(sender, Button)
         If focussedChannel = btn.Tag Then
             Exit Sub
@@ -97,7 +102,7 @@ Public Class Main
         MessageContainer.Controls.Clear()
 
         Try
-            Dim msgs = Await channel.GetMessagesAsync(100, CacheMode.AllowDownload).Flatten()
+            Dim msgs = Await channel.GetMessagesAsync(50, CacheMode.AllowDownload).Flatten()
             msgs = msgs.Reverse()
 
             For Each m In msgs
@@ -112,7 +117,7 @@ Public Class Main
                     Refresh()
                     Application.DoEvents()
                 Catch ex As Exception
-                    MsgBox(ex.Message)
+                    Console.WriteLine(ex.Message + vbNewLine + ex.StackTrace)
                 End Try
             Next
         Catch
@@ -136,7 +141,7 @@ Public Class Main
             If msg.Attachments.FirstOrDefault IsNot Nothing AndAlso msg.Attachments.FirstOrDefault.Url IsNot Nothing Then
                 attachment = msg.Attachments.FirstOrDefault.Url
             End If
-            MessageContainer.Invoke(New addMessageCallback(AddressOf AddMessage), New Object() {msg.Author, msg.Content, attachment, msg})
+            MessageContainer.Invoke(New addMessageCallback(AddressOf AddMessage), New Object() {msg.Author, ResolveUserMentions(msg), attachment, msg})
         End If
     End Function
 
@@ -154,6 +159,7 @@ Public Class Main
         container.Label1.Text = mUser.Username
         container.Label1.Tag = mUser.Id
         container.Label2.Text = mText
+        container.Timestamp.Text = ResolveTime(m.Timestamp)
         container.PictureBox1.ImageLocation = mUser.GetAvatarUrl
 
         If m.Attachments.FirstOrDefault IsNot Nothing AndAlso m.Attachments.FirstOrDefault.Url IsNot Nothing Then

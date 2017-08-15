@@ -116,7 +116,7 @@ Partial Class Main
         Me.ChannelContainer.Dock = System.Windows.Forms.DockStyle.Left
         Me.ChannelContainer.Location = New System.Drawing.Point(64, 0)
         Me.ChannelContainer.Name = "ChannelContainer"
-        Me.ChannelContainer.Size = New System.Drawing.Size(135, 615)
+        Me.ChannelContainer.Size = New System.Drawing.Size(146, 615)
         Me.ChannelContainer.TabIndex = 2
         '
         'VoiceChannels
@@ -124,7 +124,7 @@ Partial Class Main
         Me.VoiceChannels.Dock = System.Windows.Forms.DockStyle.Top
         Me.VoiceChannels.Location = New System.Drawing.Point(0, 56)
         Me.VoiceChannels.Name = "VoiceChannels"
-        Me.VoiceChannels.Size = New System.Drawing.Size(133, 0)
+        Me.VoiceChannels.Size = New System.Drawing.Size(144, 0)
         Me.VoiceChannels.TabIndex = 4
         '
         'Label2
@@ -134,7 +134,7 @@ Partial Class Main
         Me.Label2.ForeColor = System.Drawing.Color.White
         Me.Label2.Location = New System.Drawing.Point(0, 28)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(133, 28)
+        Me.Label2.Size = New System.Drawing.Size(144, 28)
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "Voice Channels"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -144,7 +144,7 @@ Partial Class Main
         Me.TextChannels.Dock = System.Windows.Forms.DockStyle.Top
         Me.TextChannels.Location = New System.Drawing.Point(0, 28)
         Me.TextChannels.Name = "TextChannels"
-        Me.TextChannels.Size = New System.Drawing.Size(133, 0)
+        Me.TextChannels.Size = New System.Drawing.Size(144, 0)
         Me.TextChannels.TabIndex = 2
         '
         'Label1
@@ -154,7 +154,7 @@ Partial Class Main
         Me.Label1.ForeColor = System.Drawing.Color.White
         Me.Label1.Location = New System.Drawing.Point(0, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(133, 28)
+        Me.Label1.Size = New System.Drawing.Size(144, 28)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Text Channels"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -163,7 +163,7 @@ Partial Class Main
         '
         Me.DividerChannel.BackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.DividerChannel.Dock = System.Windows.Forms.DockStyle.Right
-        Me.DividerChannel.Location = New System.Drawing.Point(133, 0)
+        Me.DividerChannel.Location = New System.Drawing.Point(144, 0)
         Me.DividerChannel.Name = "DividerChannel"
         Me.DividerChannel.Size = New System.Drawing.Size(2, 615)
         Me.DividerChannel.TabIndex = 0
@@ -209,7 +209,7 @@ Partial Class Main
         Me.ServerName.Name = "ServerName"
         Me.ServerName.Size = New System.Drawing.Size(1022, 39)
         Me.ServerName.TabIndex = 7
-        Me.ServerName.Text = "Server Name"
+        Me.ServerName.Text = "No Server Selected."
         Me.ServerName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'UserInfo
@@ -276,7 +276,7 @@ Partial Class Main
         Me.ChannelTopic.Name = "ChannelTopic"
         Me.ChannelTopic.Size = New System.Drawing.Size(1022, 27)
         Me.ChannelTopic.TabIndex = 8
-        Me.ChannelTopic.Text = "Channel Topic"
+        Me.ChannelTopic.Text = "No Channel Selected."
         Me.ChannelTopic.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'InfoHolder
