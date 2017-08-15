@@ -48,8 +48,8 @@ Public Class Main
         Dim txtChannels = Await server.GetTextChannelsAsync()
         Dim vcChannels = Await server.GetVoiceChannelsAsync()
 
-        'txtChannels = txtChannels.OrderBy(Function(a) a.Position)
-        'vcChannels = vcChannels.OrderBy(Function(a) a.Position).Reverse()
+        txtChannels = txtChannels.OrderByDescending(Function(channel) channel.Position).ToList()
+        vcChannels = vcChannels.OrderByDescending(Function(channel) channel.Position).ToList()
 
         ServerName.Text = server.Name
 

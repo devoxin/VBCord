@@ -1,3 +1,2 @@
 ﻿-> Drag/Resize on custom form
--> Fix channel-ordering based on positions
 -> Add user-login support
