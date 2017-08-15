@@ -42,7 +42,7 @@ Module ApplicationF
         If localTime.Date = Date.Today.Date Then
             timestring += "Today at "
         Else
-            timestring += localTime.Date
+            timestring += $"{localTime.Date} at "
         End If
 
         timestring += $"{localTime.Hour}:{localTime.Minute}"
