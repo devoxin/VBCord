@@ -4,8 +4,6 @@ Imports Discord
 
 Module ApplicationF
 
-    Private MentionRX As Regex = New Regex("<@!?\d+>")
-
     Public Sub CheckForUpdates()
 
         Try
@@ -21,13 +19,16 @@ Module ApplicationF
 
     End Sub
 
-    Public Function ResolveUserMentions(ByVal msg As WebSocket.SocketMessage)
+    Public Function ResolveMentions(ByVal msg As WebSocket.SocketMessage)
 
         Dim content As String = msg.Content
-        Dim mentions = msg.MentionedUsers
 
-        For Each m In mentions
-            content = MentionRX.Replace(content, $"@{m.Username}")
+        For Each u In msg.MentionedUsers
+            content = New Regex($"<@!?{u.Id}>").Replace(content, $"@{u.Username}")
+        Next
+
+        For Each c In msg.MentionedChannels
+            content = New Regex($"<#{c.Id}>").Replace(content, $"#{c.Name}")
         Next
 
         Return content

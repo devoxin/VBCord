@@ -141,7 +141,7 @@ Public Class Main
             If msg.Attachments.FirstOrDefault IsNot Nothing AndAlso msg.Attachments.FirstOrDefault.Url IsNot Nothing Then
                 attachment = msg.Attachments.FirstOrDefault.Url
             End If
-            MessageContainer.Invoke(New addMessageCallback(AddressOf AddMessage), New Object() {msg.Author, ResolveUserMentions(msg), attachment, msg})
+            MessageContainer.Invoke(New addMessageCallback(AddressOf AddMessage), New Object() {msg.Author, ResolveMentions(msg), attachment, msg})
         End If
     End Function
 
