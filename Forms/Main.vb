@@ -27,7 +27,8 @@ Public Class Main
                     Await Discord.LoginAsync(TokenType.Bot, loginDialog.token)
                     Await Discord.StartAsync()
                 Else
-                    ' TODO: Add user-login support
+                    Await Discord.LoginAsync(TokenType.User, loginDialog.token)
+                    Await Discord.StartAsync()
                 End If
                 Button2.Enabled = True
             Catch ex As Exception
@@ -203,12 +204,9 @@ Public Class Main
         End Try
     End Sub
 
-    'Blank text/embeds
-    ' 
-
 #Region "Client Events"
 
-    Private Async Function OnReady() As Task Handles Discord.Ready
+    Private Function OnReady() As Task Handles Discord.Ready
 
         Invoke(DirectCast(Sub()
                               Username.Text = Discord.CurrentUser.Username
@@ -223,15 +221,15 @@ Public Class Main
                               End Sub, MethodInvoker))
         End If
 
-        For i As Integer = 0 To Discord.Guilds.Count - 1 Step 1
+        For Each g As SocketGuild In Discord.Guilds
             Dim pb As New PictureBox With {
                 .Dock = DockStyle.Top,
                 .Height = 62,
                 .SizeMode = PictureBoxSizeMode.Zoom,
-                .Tag = Discord.Guilds(i).Id
+                .Tag = g.Id
             }
-            If Discord.Guilds(i).IconUrl IsNot Nothing Then
-                pb.ImageLocation = Discord.Guilds(i).IconUrl
+            If g.IconUrl IsNot Nothing Then
+                pb.ImageLocation = g.IconUrl.Replace("jpg", "png")
             Else
                 pb.Image = My.Resources.NoServer
                 pb.SizeMode = PictureBoxSizeMode.Zoom

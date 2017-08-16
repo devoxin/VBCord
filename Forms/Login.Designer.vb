@@ -49,6 +49,7 @@ Partial Class Login
         Me.CrimCordTheme1.Name = "CrimCordTheme1"
         Me.CrimCordTheme1.Size = New System.Drawing.Size(396, 98)
         Me.CrimCordTheme1.TabIndex = 0
+        Me.CrimCordTheme1.TitleFont = New System.Drawing.Font("Open Sans Light", 9.75!)
         Me.CrimCordTheme1.TitleText = "Login"
         '
         'TextBox1
@@ -92,7 +93,6 @@ Partial Class Login
         'ThemedButton2
         '
         Me.ThemedButton2.BackColor = System.Drawing.Color.FromArgb(CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer))
-        Me.ThemedButton2.Enabled = False
         Me.ThemedButton2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(85, Byte), Integer), CType(CType(85, Byte), Integer), CType(CType(85, Byte), Integer))
         Me.ThemedButton2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.ThemedButton2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))

@@ -203,12 +203,13 @@ Partial Class Main
         '
         'ChannelTopic
         '
+        Me.ChannelTopic.AutoEllipsis = True
         Me.ChannelTopic.Dock = System.Windows.Forms.DockStyle.Fill
         Me.ChannelTopic.Font = New System.Drawing.Font("Open Sans", 10.0!)
         Me.ChannelTopic.ForeColor = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer))
-        Me.ChannelTopic.Location = New System.Drawing.Point(92, 0)
+        Me.ChannelTopic.Location = New System.Drawing.Point(93, 0)
         Me.ChannelTopic.Name = "ChannelTopic"
-        Me.ChannelTopic.Size = New System.Drawing.Size(900, 34)
+        Me.ChannelTopic.Size = New System.Drawing.Size(899, 34)
         Me.ChannelTopic.TabIndex = 8
         Me.ChannelTopic.Text = "No Channel Selected."
         Me.ChannelTopic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -220,9 +221,9 @@ Partial Class Main
         Me.ChannelName.Font = New System.Drawing.Font("Open Sans", 10.0!)
         Me.ChannelName.ForeColor = System.Drawing.Color.White
         Me.ChannelName.Location = New System.Drawing.Point(0, 0)
-        Me.ChannelName.MaximumSize = New System.Drawing.Size(250, 0)
+        Me.ChannelName.MaximumSize = New System.Drawing.Size(300, 0)
         Me.ChannelName.Name = "ChannelName"
-        Me.ChannelName.Size = New System.Drawing.Size(92, 0)
+        Me.ChannelName.Size = New System.Drawing.Size(93, 0)
         Me.ChannelName.TabIndex = 9
         Me.ChannelName.Text = "No Channel"
         Me.ChannelName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
