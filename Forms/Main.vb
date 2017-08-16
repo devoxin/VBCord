@@ -63,7 +63,8 @@ Public Class Main
                 .OrderByDescending(Function(channel) channel.Position).ToList()
         End If
 
-        vcChannels = vcChannels.OrderByDescending(Function(channel) channel.Position).ToList()
+        vcChannels = vcChannels _
+            .OrderByDescending(Function(channel) channel.Position).ToList()
 
         For Each c As ITextChannel In txtChannels
             Dim btn As New ThemedButton
