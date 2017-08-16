@@ -33,17 +33,21 @@ Partial Class Login
         '
         'CrimCordTheme1
         '
+        Me.CrimCordTheme1.AccentColor = System.Drawing.Color.White
         Me.CrimCordTheme1.BackColor = System.Drawing.Color.FromArgb(CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer))
         Me.CrimCordTheme1.Controls.Add(Me.TextBox1)
         Me.CrimCordTheme1.Controls.Add(Me.Label1)
         Me.CrimCordTheme1.Controls.Add(Me.ThemedButton3)
         Me.CrimCordTheme1.Controls.Add(Me.ThemedButton2)
         Me.CrimCordTheme1.Controls.Add(Me.ThemedButton1)
+        Me.CrimCordTheme1.DisplayClose = False
+        Me.CrimCordTheme1.DisplayTitleBar = False
         Me.CrimCordTheme1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.CrimCordTheme1.Draggable = False
         Me.CrimCordTheme1.IsDialog = True
         Me.CrimCordTheme1.Location = New System.Drawing.Point(0, 0)
         Me.CrimCordTheme1.Name = "CrimCordTheme1"
-        Me.CrimCordTheme1.Size = New System.Drawing.Size(396, 139)
+        Me.CrimCordTheme1.Size = New System.Drawing.Size(396, 98)
         Me.CrimCordTheme1.TabIndex = 0
         Me.CrimCordTheme1.TitleText = "Login"
         '
@@ -52,7 +56,7 @@ Partial Class Login
         Me.TextBox1.BackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
         Me.TextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.TextBox1.ForeColor = System.Drawing.Color.White
-        Me.TextBox1.Location = New System.Drawing.Point(16, 72)
+        Me.TextBox1.Location = New System.Drawing.Point(16, 38)
         Me.TextBox1.Name = "TextBox1"
         Me.TextBox1.Size = New System.Drawing.Size(368, 20)
         Me.TextBox1.TabIndex = 5
@@ -64,7 +68,7 @@ Partial Class Login
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Lato", 14.25!)
         Me.Label1.ForeColor = System.Drawing.Color.White
-        Me.Label1.Location = New System.Drawing.Point(12, 35)
+        Me.Label1.Location = New System.Drawing.Point(12, 12)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(149, 23)
         Me.Label1.TabIndex = 4
@@ -78,7 +82,7 @@ Partial Class Login
         Me.ThemedButton3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
         Me.ThemedButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ThemedButton3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer))
-        Me.ThemedButton3.Location = New System.Drawing.Point(120, 104)
+        Me.ThemedButton3.Location = New System.Drawing.Point(120, 64)
         Me.ThemedButton3.Name = "ThemedButton3"
         Me.ThemedButton3.Size = New System.Drawing.Size(84, 23)
         Me.ThemedButton3.TabIndex = 3
@@ -94,7 +98,7 @@ Partial Class Login
         Me.ThemedButton2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
         Me.ThemedButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ThemedButton2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer))
-        Me.ThemedButton2.Location = New System.Drawing.Point(210, 104)
+        Me.ThemedButton2.Location = New System.Drawing.Point(210, 64)
         Me.ThemedButton2.Name = "ThemedButton2"
         Me.ThemedButton2.Size = New System.Drawing.Size(84, 23)
         Me.ThemedButton2.TabIndex = 2
@@ -109,7 +113,7 @@ Partial Class Login
         Me.ThemedButton1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
         Me.ThemedButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.ThemedButton1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer))
-        Me.ThemedButton1.Location = New System.Drawing.Point(300, 104)
+        Me.ThemedButton1.Location = New System.Drawing.Point(300, 64)
         Me.ThemedButton1.Name = "ThemedButton1"
         Me.ThemedButton1.Size = New System.Drawing.Size(84, 23)
         Me.ThemedButton1.TabIndex = 1
@@ -120,8 +124,9 @@ Partial Class Login
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(396, 139)
+        Me.ClientSize = New System.Drawing.Size(396, 98)
         Me.Controls.Add(Me.CrimCordTheme1)
+        Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "Login"
         Me.ShowIcon = False

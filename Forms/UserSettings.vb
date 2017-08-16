@@ -9,7 +9,7 @@ Public Class UserSettings
     End Sub
 
     Private Sub UserSettings_Load(sender As Object, e As EventArgs) Handles Me.Load
-        ComboBox1.SelectedIndex = Main.Discord.CurrentUser.Status
+        ComboBox1.SelectedIndex = Main.Discord.CurrentUser.Status - 1
         CircularPictureBox1.ImageLocation = Main.Discord.CurrentUser.GetAvatarUrl()
     End Sub
 

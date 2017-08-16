@@ -14,9 +14,10 @@ Public Class Main
     Dim focussedChannel As ULong
     Dim voiceConnection As Audio.IAudioClient
 
+    Public DisplayHidden As Boolean = True
+
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         CheckForUpdates()
-        CheckForIllegalCrossThreadCalls = False ' This is temporary... pls don't hurt me
 
         Dim loginDialog As New Login
         If loginDialog.ShowDialog() = DialogResult.OK Then
@@ -27,8 +28,9 @@ Public Class Main
                 Else
                     ' TODO: Add user-login support
                 End If
+                Button2.Enabled = True
             Catch ex As Exception
-                Console.WriteLine($"{ex.Message}{vbNewLine}{ex.StackTrace}")
+                Console.WriteLine($"Failed to login{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
                 MsgBox("An invalid token was specified, or an error occurred.")
             End Try
         End If
@@ -45,13 +47,23 @@ Public Class Main
         VoiceChannels.Controls.Clear()
 
         Dim server As IGuild = Discord.GetGuild(id)
+        ServerName.Text = server.Name
+
         Dim txtChannels = Await server.GetTextChannelsAsync()
         Dim vcChannels = Await server.GetVoiceChannelsAsync()
 
-        txtChannels = txtChannels.OrderByDescending(Function(channel) channel.Position).ToList()
-        vcChannels = vcChannels.OrderByDescending(Function(channel) channel.Position).ToList()
+        Dim _member = Await server.GetCurrentUserAsync(CacheMode.AllowDownload)
 
-        ServerName.Text = server.Name
+        If (Not DisplayHidden) Then
+            txtChannels = txtChannels _
+                .Where(Function(channel) _member.GetPermissions(channel).ReadMessages) _
+                .OrderByDescending(Function(channel) channel.Position).ToList()
+        Else
+            txtChannels = txtChannels _
+                .OrderByDescending(Function(channel) channel.Position).ToList()
+        End If
+
+        vcChannels = vcChannels.OrderByDescending(Function(channel) channel.Position).ToList()
 
         For Each c As ITextChannel In txtChannels
             Dim btn As New ThemedButton
@@ -60,6 +72,8 @@ Public Class Main
                 .Height = 30
                 .Text = c.Name
                 .Tag = c.Id
+                .TextAlign = ContentAlignment.MiddleLeft
+                .Padding = New Padding(TextChannels.Width * 0.05, 0, 0, 0)
             End With
             AddHandler btn.Click, AddressOf SwitchChannel
             TextChannels.Controls.Add(btn)
@@ -72,6 +86,8 @@ Public Class Main
                 .Height = 30
                 .Text = c.Name
                 .Tag = c.Id
+                .TextAlign = ContentAlignment.MiddleLeft
+                .Padding = New Padding(VoiceChannels.Width * 0.05, 0, 0, 0)
             End With
             AddHandler btn.Click, AddressOf JoinVoiceChannel
             VoiceChannels.Controls.Add(btn)
@@ -86,6 +102,7 @@ Public Class Main
         focussedChannel = btn.Tag
 
         Dim channel As ITextChannel = Discord.GetChannel(focussedChannel)
+        ChannelName.Text = channel.Name
         ChannelTopic.Text = channel.Topic
 
         Dim _member = Await channel.Guild.GetCurrentUserAsync(CacheMode.AllowDownload)
@@ -117,7 +134,7 @@ Public Class Main
                     Refresh()
                     Application.DoEvents()
                 Catch ex As Exception
-                    Console.WriteLine(ex.Message + vbNewLine + ex.StackTrace)
+                    Console.WriteLine($"Failed to append message to container{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
                 End Try
             Next
         Catch
@@ -129,7 +146,8 @@ Public Class Main
             e.SuppressKeyPress = True
             Try
                 Await Discord.GetGuild(focussedServer).GetTextChannel(focussedChannel).SendMessageAsync(MessageInput.Text)
-            Catch
+            Catch ex As Exception
+                Console.WriteLine($"Failed to send message to channel{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
             End Try
             MessageInput.Clear()
         End If
@@ -141,11 +159,94 @@ Public Class Main
             If msg.Attachments.FirstOrDefault IsNot Nothing AndAlso msg.Attachments.FirstOrDefault.Url IsNot Nothing Then
                 attachment = msg.Attachments.FirstOrDefault.Url
             End If
-            MessageContainer.Invoke(New addMessageCallback(AddressOf AddMessage), New Object() {msg.Author, ResolveMentions(msg), attachment, msg})
+            MessageContainer.Invoke(DirectCast(Sub() AddMessage(msg.Author, ResolveMentions(msg), attachment, msg), MethodInvoker))
         End If
     End Function
 
-    Delegate Sub addMessageCallback(ByVal mUser, mText, mAttachment, m)
+    Private Async Sub JoinVoiceChannel(sender As Object, e As EventArgs)
+        Dim btn = DirectCast(sender, Button)
+        Dim channel = Discord.GetGuild(focussedServer).GetVoiceChannel(btn.Tag)
+        Try
+            If (voiceConnection IsNot Nothing) Then
+                voiceConnection.Dispose()
+            End If
+            voiceConnection = Await channel.ConnectAsync()
+            If voiceConnection.ConnectionState = ConnectionState.Connected Then
+                VoiceStatus.Text = "Voice Connected"
+                VoiceName.Text = channel.Name
+                Await UpdateLatency()
+                AddHandler voiceConnection.LatencyUpdated, AddressOf UpdateLatency
+                VoicePanel.Visible = True
+            Else
+                VoiceStatus.Text = "Voice Disconnected"
+                VoiceName.Text = channel.Name
+                LatencyImage.Image = Nothing
+                VoicePanel.Visible = False
+            End If
+        Catch ex As Exception
+            Console.WriteLine($"Failed to establish connection to voicechannel{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
+        End Try
+    End Sub
+
+#Region "Client Events"
+
+    Private Function OnReady() As Task Handles Discord.Ready
+
+        Invoke(DirectCast(Sub()
+                              Username.Text = Discord.CurrentUser.Username
+                              UserAvatar.ImageLocation = Discord.CurrentUser.GetAvatarUrl
+                              UserDiscrim.Text = $"#{Discord.CurrentUser.Discriminator}"
+                          End Sub, MethodInvoker))
+
+        For i As Integer = 0 To Discord.Guilds.Count - 1 Step 1
+            Dim pb As New PictureBox With {
+                .Dock = DockStyle.Top,
+                .Height = 62,
+                .SizeMode = PictureBoxSizeMode.Zoom,
+                .ImageLocation = Discord.Guilds(i).IconUrl,
+                .Tag = Discord.Guilds(i).Id
+            }
+            AddHandler pb.Click, AddressOf SwitchServer
+            AddServer(pb)
+        Next
+
+        For i As Integer = 0 To Discord.DMChannels.Count - 1 Step 1
+            Dim btn As New ThemedButton
+            With btn
+                .Dock = DockStyle.Top
+                .Height = 30
+                .Text = Discord.DMChannels(i).Recipient.Username
+                .TextAlign = ContentAlignment.MiddleLeft
+                .Tag = Discord.DMChannels(i).Id
+            End With
+            AddHandler btn.Click, AddressOf SwitchChannel
+            AddChannel(btn)
+        Next
+    End Function
+
+    Private Function UpdateLatency() As Task
+        Select Case voiceConnection.Latency
+            Case Is <= 50
+                LatencyImage.Image = My.Resources.SIGNAL_3
+            Case Is <= 100
+                LatencyImage.Image = My.Resources.SIGNAL_2
+            Case Else
+                LatencyImage.Image = My.Resources.SIGNAL_1
+        End Select
+        Return Task.FromResult(True)
+    End Function
+
+#End Region
+
+#Region "Interface Management"
+
+    Private Sub AddServer(ByVal server As PictureBox)
+        Servers.Invoke(DirectCast(Sub() Servers.Controls.Add(server), MethodInvoker))
+    End Sub
+
+    Private Sub AddChannel(ByVal channel As Button)
+        TextChannels.Invoke(DirectCast(Sub() TextChannels.Controls.Add(channel), MethodInvoker))
+    End Sub
 
     Private Sub AddMessage(ByVal mUser As IUser, mText As String, mAttachment As String, m As IMessage)
         Dim container As New Message With {
@@ -175,98 +276,6 @@ Public Class Main
         MessageContainer.Controls.Add(container)
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
-        Application.Exit()
-    End Sub
-
-    Private Async Sub JoinVoiceChannel(sender As Object, e As EventArgs)
-        Dim btn = DirectCast(sender, Button)
-        Dim channel = Discord.GetGuild(focussedServer).GetVoiceChannel(btn.Tag)
-        If voiceConnection IsNot Nothing Then
-            voiceConnection.Dispose()
-        End If
-        Try
-            voiceConnection = Await channel.ConnectAsync()
-            If voiceConnection.ConnectionState = ConnectionState.Connected Then
-                VoiceStatus.Text = "Voice Connected"
-                VoiceName.Text = channel.Name
-                Await UpdateLatency()
-                AddHandler voiceConnection.LatencyUpdated, AddressOf UpdateLatency
-                VoicePanel.Visible = True
-            Else
-                VoiceStatus.Text = "Voice Disconnected"
-                VoiceName.Text = channel.Name
-                LatencyImage.Image = Nothing
-                VoicePanel.Visible = False
-            End If
-        Catch
-        End Try
-    End Sub
-
-#Region "Client Events"
-
-    Private Function OnReady() As Task Handles Discord.Ready
-
-        Username.Text = Discord.CurrentUser.Username
-        UserAvatar.ImageLocation = Discord.CurrentUser.GetAvatarUrl
-        UserDiscrim.Text = $"#{Discord.CurrentUser.Discriminator}"
-
-        For i As Integer = 0 To Discord.Guilds.Count - 1 Step 1
-            Dim pb As New PictureBox With {
-                .Dock = DockStyle.Top,
-                .Height = 62,
-                .SizeMode = PictureBoxSizeMode.Zoom,
-                .ImageLocation = Discord.Guilds(i).IconUrl,
-                .Tag = Discord.Guilds(i).Id
-            }
-            AddHandler pb.Click, AddressOf SwitchServer
-            Dim trd As New AddServerIconCallback(AddressOf AddServerIcon)
-            Servers.Invoke(trd, New Object() {pb})
-        Next
-
-        For i As Integer = 0 To Discord.DMChannels.Count - 1 Step 1
-            Dim btn As New ThemedButton
-            With btn
-                .Dock = DockStyle.Top
-                .Height = 30
-                .Text = Discord.DMChannels(i).Recipient.Username
-                .TextAlign = ContentAlignment.MiddleLeft
-                .Tag = Discord.DMChannels(i).Id
-            End With
-            AddHandler btn.Click, AddressOf SwitchChannel
-            Dim trd As New AddChannelCallback(AddressOf AddChannel)
-            TextChannels.Invoke(trd, New Object() {btn})
-        Next
-    End Function
-
-    Private Function UpdateLatency() As Task
-        Select Case voiceConnection.Latency
-            Case Is <= 50
-                LatencyImage.Image = My.Resources.SIGNAL_3
-            Case Is <= 100
-                LatencyImage.Image = My.Resources.SIGNAL_2
-            Case Else
-                LatencyImage.Image = My.Resources.SIGNAL_1
-        End Select
-        Return Task.FromResult(True)
-    End Function
-
-#End Region
-
-#Region "Interface Management"
-
-    Delegate Sub AddServerIconCallback(ByVal server As PictureBox)
-
-    Private Sub AddServerIcon(ByVal server As PictureBox)
-        Servers.Controls.Add(server)
-    End Sub
-
-    Delegate Sub AddChannelCallback(ByVal channel As Button)
-
-    Private Sub AddChannel(ByVal channel As Button)
-        TextChannels.Controls.Add(channel)
-    End Sub
-
     Private Sub TextChannels_ControlAdded(sender As Object, e As ControlEventArgs) Handles TextChannels.ControlAdded, VoiceChannels.ControlAdded, TextChannels.ControlRemoved, VoiceChannels.ControlRemoved
         Dim panel As Panel = DirectCast(sender, Panel)
         If panel.Name = "VoiceChannels" Then
@@ -279,14 +288,6 @@ Public Class Main
     Private Sub MessageContainer_ControlAdded(sender As Object, e As ControlEventArgs) Handles MessageContainer.ControlAdded
         MessageContainer.AutoScrollPosition = New Point(0, MessageContainer.VerticalScroll.Maximum)
     End Sub
-
-#End Region
-
-#Region "Helpers"
-
-    Private Function IsMentioned(ByVal m As IMessage)
-        Return m.MentionedUserIds.Contains(Discord.CurrentUser.Id)
-    End Function
 
 #End Region
 
@@ -308,5 +309,15 @@ Public Class Main
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         UserSettings.ShowDialog()
+    End Sub
+
+    Private Sub ChannelName_TextChanged(sender As Object, e As EventArgs) Handles ChannelName.TextChanged
+        Using g As Graphics = ChannelName.CreateGraphics
+            ChannelName.Width = g.MeasureString(ChannelName.Text, ChannelName.Font).Width + 10
+        End Using
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        ClientSettings.ShowDialog()
     End Sub
 End Class

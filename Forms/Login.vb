@@ -4,6 +4,7 @@
     Public tokenType As String
 
     Private Sub ThemedButton3_Click(sender As Object, e As EventArgs) Handles ThemedButton3.Click
+        DialogResult = DialogResult.Cancel
         Application.Exit()
     End Sub
 

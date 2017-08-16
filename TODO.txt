@@ -1,2 +1,2 @@
-﻿-> Drag/Resize on custom form
+﻿-> Resize on custom form
 -> Add user-login support

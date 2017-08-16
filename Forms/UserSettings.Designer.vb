@@ -35,6 +35,7 @@ Partial Class UserSettings
         '
         'FormTemplate1
         '
+        Me.FormTemplate1.AccentColor = System.Drawing.Color.White
         Me.FormTemplate1.BackColor = System.Drawing.Color.FromArgb(CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer))
         Me.FormTemplate1.Controls.Add(Me.CircularPictureBox1)
         Me.FormTemplate1.Controls.Add(Me.ThemedButton1)
@@ -42,12 +43,16 @@ Partial Class UserSettings
         Me.FormTemplate1.Controls.Add(Me.Label2)
         Me.FormTemplate1.Controls.Add(Me.Label1)
         Me.FormTemplate1.Controls.Add(Me.ComboBox1)
+        Me.FormTemplate1.DisplayClose = True
+        Me.FormTemplate1.DisplayTitleBar = True
         Me.FormTemplate1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.FormTemplate1.Draggable = True
         Me.FormTemplate1.IsDialog = True
         Me.FormTemplate1.Location = New System.Drawing.Point(0, 0)
         Me.FormTemplate1.Name = "FormTemplate1"
         Me.FormTemplate1.Size = New System.Drawing.Size(484, 168)
         Me.FormTemplate1.TabIndex = 0
+        Me.FormTemplate1.TitleFont = New System.Drawing.Font("Lato", 10.0!)
         Me.FormTemplate1.TitleText = "User Settings"
         '
         'CircularPictureBox1
@@ -126,6 +131,7 @@ Partial Class UserSettings
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(484, 168)
         Me.Controls.Add(Me.FormTemplate1)
+        Me.DoubleBuffered = True
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None
         Me.Name = "UserSettings"
         Me.ShowIcon = False

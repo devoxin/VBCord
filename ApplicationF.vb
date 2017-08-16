@@ -53,6 +53,10 @@ Module ApplicationF
 
     End Function
 
+    Public Function IsMentioned(ByVal m As IMessage)
+        Return m.MentionedUserIds.Contains(Main.Discord.CurrentUser.Id)
+    End Function
+
     Public Function ResolveTime(ByVal time As DateTimeOffset)
 
         Dim localTime = time.ToLocalTime()
