@@ -1,5 +1,6 @@
 ﻿Option Explicit On
 #Disable Warning BC42105 'Functions don't return. Doesn't really matter as they don't need to here.
+#Disable Warning BC42358 'Awaitable functions aren't awaited (Ignore warning from 'UpdateLatency()'
 
 Imports Discord
 Imports Discord.WebSocket
@@ -107,14 +108,20 @@ Public Class Main
         ChannelTopic.Text = channel.Topic
 
         Dim _member = Await channel.Guild.GetCurrentUserAsync(CacheMode.AllowDownload)
+
         If Not _member.GetPermissions(channel).SendMessages Then
             MessageInput.Enabled = False
             MessageInput.Text = "You cannot send messages to this channel."
             MessageInput.ForeColor = Drawing.Color.White
-
         Else
             MessageInput.Enabled = True
             MessageInput.Clear()
+        End If
+
+        If Not _member.GetPermissions(channel).AttachFiles Then
+            AttachFile.Visible = False
+        Else
+            AttachFile.Visible = True
         End If
 
         MessageContainer.Controls.Clear()
@@ -160,6 +167,9 @@ Public Class Main
             If msg.Attachments.FirstOrDefault IsNot Nothing AndAlso msg.Attachments.FirstOrDefault.Url IsNot Nothing Then
                 attachment = msg.Attachments.FirstOrDefault.Url
             End If
+            If attachment.Length = 0 AndAlso msg.Content.Length = 0 Then
+                Exit Function
+            End If
             MessageContainer.Invoke(DirectCast(Sub() AddMessage(msg.Author, ResolveMentions(msg), attachment, msg), MethodInvoker))
         End If
     End Function
@@ -167,31 +177,38 @@ Public Class Main
     Private Async Sub JoinVoiceChannel(sender As Object, e As EventArgs)
         Dim btn = DirectCast(sender, Button)
         Dim channel = Discord.GetGuild(focussedServer).GetVoiceChannel(btn.Tag)
+
+        VoiceStatus.Text = "Voice Connecting"
+        VoiceName.Text = ""
+        LatencyImage.Image = Nothing
+        VoicePanel.Visible = True
+
+        If (voiceConnection IsNot Nothing) Then
+            voiceConnection.Dispose()
+        End If
+
         Try
-            If (voiceConnection IsNot Nothing) Then
-                voiceConnection.Dispose()
-            End If
             voiceConnection = Await channel.ConnectAsync()
+        Finally
             If voiceConnection.ConnectionState = ConnectionState.Connected Then
                 VoiceStatus.Text = "Voice Connected"
                 VoiceName.Text = channel.Name
-                Await UpdateLatency()
                 AddHandler voiceConnection.LatencyUpdated, AddressOf UpdateLatency
-                VoicePanel.Visible = True
+                UpdateLatency()
             Else
                 VoiceStatus.Text = "Voice Disconnected"
                 VoiceName.Text = channel.Name
                 LatencyImage.Image = Nothing
-                VoicePanel.Visible = False
             End If
-        Catch ex As Exception
-            Console.WriteLine($"Failed to establish connection to voicechannel{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
         End Try
     End Sub
 
+    'Blank text/embeds
+    ' 
+
 #Region "Client Events"
 
-    Private Function OnReady() As Task Handles Discord.Ready
+    Private Async Function OnReady() As Task Handles Discord.Ready
 
         Invoke(DirectCast(Sub()
                               Username.Text = Discord.CurrentUser.Username
@@ -199,30 +216,42 @@ Public Class Main
                               UserDiscrim.Text = $"#{Discord.CurrentUser.Discriminator}"
                           End Sub, MethodInvoker))
 
+        If Discord.Guilds.Count > 16 Then
+            Invoke(DirectCast(Sub()
+                                  Servers.Width = 79
+                                  UtilPanel.Width += 17
+                              End Sub, MethodInvoker))
+        End If
+
         For i As Integer = 0 To Discord.Guilds.Count - 1 Step 1
             Dim pb As New PictureBox With {
                 .Dock = DockStyle.Top,
                 .Height = 62,
                 .SizeMode = PictureBoxSizeMode.Zoom,
-                .ImageLocation = Discord.Guilds(i).IconUrl,
                 .Tag = Discord.Guilds(i).Id
             }
+            If Discord.Guilds(i).IconUrl IsNot Nothing Then
+                pb.ImageLocation = Discord.Guilds(i).IconUrl
+            Else
+                pb.Image = My.Resources.NoServer
+                pb.SizeMode = PictureBoxSizeMode.Zoom
+            End If
             AddHandler pb.Click, AddressOf SwitchServer
             AddServer(pb)
         Next
 
-        For i As Integer = 0 To Discord.DMChannels.Count - 1 Step 1
-            Dim btn As New ThemedButton
-            With btn
-                .Dock = DockStyle.Top
-                .Height = 30
-                .Text = Discord.DMChannels(i).Recipient.Username
-                .TextAlign = ContentAlignment.MiddleLeft
-                .Tag = Discord.DMChannels(i).Id
-            End With
-            AddHandler btn.Click, AddressOf SwitchChannel
-            AddChannel(btn)
-        Next
+        'For i As Integer = 0 To Discord.DMChannels.Count - 1 Step 1
+        '    Dim btn As New ThemedButton
+        '    With btn
+        '        .Dock = DockStyle.Top
+        '        .Height = 30
+        '        .Text = Discord.DMChannels(i).Recipient.Username
+        '        .TextAlign = ContentAlignment.MiddleLeft
+        '        .Tag = Discord.DMChannels(i).Id
+        '    End With
+        '    AddHandler btn.Click, AddressOf SwitchChannel
+        '    AddChannel(btn)
+        'Next
     End Function
 
     Private Function UpdateLatency() As Task
@@ -234,7 +263,6 @@ Public Class Main
             Case Else
                 LatencyImage.Image = My.Resources.SIGNAL_1
         End Select
-        Return Task.FromResult(True)
     End Function
 
 #End Region
@@ -320,5 +348,30 @@ Public Class Main
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
         ClientSettings.ShowDialog()
+    End Sub
+
+    Private Async Sub ThemedButton1_Click(sender As Object, e As EventArgs) Handles AttachFile.Click
+        Dim ofd As New OpenFileDialog With {
+            .Filter = "All Files|*.*",
+            .Title = "Select File to Upload"
+            }
+        If ofd.ShowDialog = DialogResult.OK Then
+            AttachmentPanel.Visible = True
+            Try
+                Await Discord.GetGuild(focussedServer).GetTextChannel(focussedChannel).SendFileAsync(ofd.FileName, MessageInput.Text, False)
+                AttachmentPanel.Visible = False
+            Catch ex As Exception
+                Console.WriteLine($"Failed to send attachment to channel{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
+                AttachmentStatus.Text = "Failed to send file"
+                CloseAttachmentPanel.Visible = True
+            End Try
+            MessageInput.Clear()
+        End If
+    End Sub
+
+    Private Sub ThemedButton2_Click(sender As Object, e As EventArgs) Handles CloseAttachmentPanel.Click
+        AttachmentPanel.Visible = False
+        CloseAttachmentPanel.Visible = False
+        AttachmentStatus.Text = "File sending..."
     End Sub
 End Class

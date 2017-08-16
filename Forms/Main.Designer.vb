@@ -25,7 +25,13 @@ Partial Class Main
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
         Me.CrimCordTheme1 = New CrimsonCord.CrimCordTheme()
         Me.MessageContainer = New System.Windows.Forms.Panel()
+        Me.AttachmentPanel = New System.Windows.Forms.Panel()
+        Me.CloseAttachmentPanel = New CrimsonCord.ThemedButton()
+        Me.AttachmentStatus = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.MessageControls = New System.Windows.Forms.Panel()
         Me.MessageInput = New System.Windows.Forms.TextBox()
+        Me.AttachFile = New CrimsonCord.ThemedButton()
         Me.ChannelInfoContainer = New System.Windows.Forms.Panel()
         Me.ChannelTopic = New System.Windows.Forms.Label()
         Me.ChannelName = New System.Windows.Forms.Label()
@@ -49,6 +55,9 @@ Partial Class Main
         Me.Username = New System.Windows.Forms.Label()
         Me.UserAvatar = New System.Windows.Forms.PictureBox()
         Me.CrimCordTheme1.SuspendLayout()
+        Me.AttachmentPanel.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.MessageControls.SuspendLayout()
         Me.ChannelInfoContainer.SuspendLayout()
         Me.UtilPanel.SuspendLayout()
         Me.ChannelContainer.SuspendLayout()
@@ -63,7 +72,8 @@ Partial Class Main
         Me.CrimCordTheme1.AccentColor = System.Drawing.Color.White
         Me.CrimCordTheme1.BackColor = System.Drawing.Color.FromArgb(CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer))
         Me.CrimCordTheme1.Controls.Add(Me.MessageContainer)
-        Me.CrimCordTheme1.Controls.Add(Me.MessageInput)
+        Me.CrimCordTheme1.Controls.Add(Me.AttachmentPanel)
+        Me.CrimCordTheme1.Controls.Add(Me.MessageControls)
         Me.CrimCordTheme1.Controls.Add(Me.ChannelInfoContainer)
         Me.CrimCordTheme1.Controls.Add(Me.UtilPanel)
         Me.CrimCordTheme1.DisplayClose = True
@@ -86,21 +96,100 @@ Partial Class Main
         Me.MessageContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MessageContainer.Location = New System.Drawing.Point(240, 61)
         Me.MessageContainer.Name = "MessageContainer"
-        Me.MessageContainer.Size = New System.Drawing.Size(992, 629)
+        Me.MessageContainer.Size = New System.Drawing.Size(992, 583)
         Me.MessageContainer.TabIndex = 5
+        '
+        'AttachmentPanel
+        '
+        Me.AttachmentPanel.Controls.Add(Me.CloseAttachmentPanel)
+        Me.AttachmentPanel.Controls.Add(Me.AttachmentStatus)
+        Me.AttachmentPanel.Controls.Add(Me.PictureBox1)
+        Me.AttachmentPanel.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.AttachmentPanel.Location = New System.Drawing.Point(240, 644)
+        Me.AttachmentPanel.Name = "AttachmentPanel"
+        Me.AttachmentPanel.Size = New System.Drawing.Size(992, 46)
+        Me.AttachmentPanel.TabIndex = 12
+        Me.AttachmentPanel.Visible = False
+        '
+        'CloseAttachmentPanel
+        '
+        Me.CloseAttachmentPanel.BackColor = System.Drawing.Color.FromArgb(CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer))
+        Me.CloseAttachmentPanel.BackgroundImage = CType(resources.GetObject("CloseAttachmentPanel.BackgroundImage"), System.Drawing.Image)
+        Me.CloseAttachmentPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.CloseAttachmentPanel.Dock = System.Windows.Forms.DockStyle.Right
+        Me.CloseAttachmentPanel.FlatAppearance.BorderSize = 0
+        Me.CloseAttachmentPanel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.CloseAttachmentPanel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
+        Me.CloseAttachmentPanel.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CloseAttachmentPanel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
+        Me.CloseAttachmentPanel.Location = New System.Drawing.Point(946, 0)
+        Me.CloseAttachmentPanel.Name = "CloseAttachmentPanel"
+        Me.CloseAttachmentPanel.Size = New System.Drawing.Size(46, 46)
+        Me.CloseAttachmentPanel.TabIndex = 2
+        Me.CloseAttachmentPanel.UseVisualStyleBackColor = False
+        Me.CloseAttachmentPanel.Visible = False
+        '
+        'AttachmentStatus
+        '
+        Me.AttachmentStatus.AutoSize = True
+        Me.AttachmentStatus.Font = New System.Drawing.Font("Open Sans", 11.0!)
+        Me.AttachmentStatus.ForeColor = System.Drawing.Color.White
+        Me.AttachmentStatus.Location = New System.Drawing.Point(52, 12)
+        Me.AttachmentStatus.Name = "AttachmentStatus"
+        Me.AttachmentStatus.Size = New System.Drawing.Size(103, 20)
+        Me.AttachmentStatus.TabIndex = 1
+        Me.AttachmentStatus.Text = "File sending..."
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
+        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Left
+        Me.PictureBox1.Location = New System.Drawing.Point(0, 0)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(46, 46)
+        Me.PictureBox1.TabIndex = 0
+        Me.PictureBox1.TabStop = False
+        '
+        'MessageControls
+        '
+        Me.MessageControls.Controls.Add(Me.MessageInput)
+        Me.MessageControls.Controls.Add(Me.AttachFile)
+        Me.MessageControls.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MessageControls.Location = New System.Drawing.Point(240, 690)
+        Me.MessageControls.Name = "MessageControls"
+        Me.MessageControls.Size = New System.Drawing.Size(992, 46)
+        Me.MessageControls.TabIndex = 11
         '
         'MessageInput
         '
         Me.MessageInput.BackColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(80, Byte), Integer))
         Me.MessageInput.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.MessageInput.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.MessageInput.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MessageInput.Font = New System.Drawing.Font("Segoe UI", 10.0!)
         Me.MessageInput.ForeColor = System.Drawing.Color.White
-        Me.MessageInput.Location = New System.Drawing.Point(240, 690)
+        Me.MessageInput.Location = New System.Drawing.Point(46, 0)
         Me.MessageInput.Multiline = True
         Me.MessageInput.Name = "MessageInput"
-        Me.MessageInput.Size = New System.Drawing.Size(992, 46)
+        Me.MessageInput.Size = New System.Drawing.Size(946, 46)
         Me.MessageInput.TabIndex = 3
+        '
+        'AttachFile
+        '
+        Me.AttachFile.BackColor = System.Drawing.Color.FromArgb(CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer))
+        Me.AttachFile.BackgroundImage = CType(resources.GetObject("AttachFile.BackgroundImage"), System.Drawing.Image)
+        Me.AttachFile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.AttachFile.Dock = System.Windows.Forms.DockStyle.Left
+        Me.AttachFile.FlatAppearance.BorderSize = 0
+        Me.AttachFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.AttachFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
+        Me.AttachFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.AttachFile.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
+        Me.AttachFile.Location = New System.Drawing.Point(0, 0)
+        Me.AttachFile.Name = "AttachFile"
+        Me.AttachFile.Size = New System.Drawing.Size(46, 46)
+        Me.AttachFile.TabIndex = 10
+        Me.AttachFile.UseVisualStyleBackColor = False
         '
         'ChannelInfoContainer
         '
@@ -158,9 +247,9 @@ Partial Class Main
         Me.ChannelContainer.Controls.Add(Me.TextChannels)
         Me.ChannelContainer.Controls.Add(Me.Label1)
         Me.ChannelContainer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.ChannelContainer.Location = New System.Drawing.Point(64, 34)
+        Me.ChannelContainer.Location = New System.Drawing.Point(62, 34)
         Me.ChannelContainer.Name = "ChannelContainer"
-        Me.ChannelContainer.Size = New System.Drawing.Size(176, 583)
+        Me.ChannelContainer.Size = New System.Drawing.Size(178, 583)
         Me.ChannelContainer.TabIndex = 2
         '
         'VoiceChannels
@@ -168,7 +257,7 @@ Partial Class Main
         Me.VoiceChannels.Dock = System.Windows.Forms.DockStyle.Top
         Me.VoiceChannels.Location = New System.Drawing.Point(0, 56)
         Me.VoiceChannels.Name = "VoiceChannels"
-        Me.VoiceChannels.Size = New System.Drawing.Size(176, 0)
+        Me.VoiceChannels.Size = New System.Drawing.Size(178, 0)
         Me.VoiceChannels.TabIndex = 4
         '
         'Label2
@@ -178,7 +267,7 @@ Partial Class Main
         Me.Label2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(170, Byte), Integer), CType(CType(170, Byte), Integer), CType(CType(170, Byte), Integer))
         Me.Label2.Location = New System.Drawing.Point(0, 28)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(176, 28)
+        Me.Label2.Size = New System.Drawing.Size(178, 28)
         Me.Label2.TabIndex = 3
         Me.Label2.Text = "Voice Channels"
         Me.Label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -188,7 +277,7 @@ Partial Class Main
         Me.TextChannels.Dock = System.Windows.Forms.DockStyle.Top
         Me.TextChannels.Location = New System.Drawing.Point(0, 28)
         Me.TextChannels.Name = "TextChannels"
-        Me.TextChannels.Size = New System.Drawing.Size(176, 0)
+        Me.TextChannels.Size = New System.Drawing.Size(178, 0)
         Me.TextChannels.TabIndex = 2
         '
         'Label1
@@ -198,7 +287,7 @@ Partial Class Main
         Me.Label1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(170, Byte), Integer), CType(CType(170, Byte), Integer), CType(CType(170, Byte), Integer))
         Me.Label1.Location = New System.Drawing.Point(0, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(176, 28)
+        Me.Label1.Size = New System.Drawing.Size(178, 28)
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Text Channels"
         Me.Label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -208,9 +297,9 @@ Partial Class Main
         Me.ServerName.Dock = System.Windows.Forms.DockStyle.Top
         Me.ServerName.Font = New System.Drawing.Font("Open Sans", 11.0!)
         Me.ServerName.ForeColor = System.Drawing.Color.White
-        Me.ServerName.Location = New System.Drawing.Point(64, 0)
+        Me.ServerName.Location = New System.Drawing.Point(62, 0)
         Me.ServerName.Name = "ServerName"
-        Me.ServerName.Size = New System.Drawing.Size(176, 34)
+        Me.ServerName.Size = New System.Drawing.Size(178, 34)
         Me.ServerName.TabIndex = 7
         Me.ServerName.Text = "Select a Server"
         Me.ServerName.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
@@ -221,7 +310,7 @@ Partial Class Main
         Me.Servers.Dock = System.Windows.Forms.DockStyle.Left
         Me.Servers.Location = New System.Drawing.Point(0, 0)
         Me.Servers.Name = "Servers"
-        Me.Servers.Size = New System.Drawing.Size(64, 617)
+        Me.Servers.Size = New System.Drawing.Size(62, 617)
         Me.Servers.TabIndex = 6
         '
         'VoicePanel
@@ -370,7 +459,11 @@ Partial Class Main
         Me.Text = "VBCord"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.CrimCordTheme1.ResumeLayout(False)
-        Me.CrimCordTheme1.PerformLayout()
+        Me.AttachmentPanel.ResumeLayout(False)
+        Me.AttachmentPanel.PerformLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.MessageControls.ResumeLayout(False)
+        Me.MessageControls.PerformLayout()
         Me.ChannelInfoContainer.ResumeLayout(False)
         Me.UtilPanel.ResumeLayout(False)
         Me.ChannelContainer.ResumeLayout(False)
@@ -406,4 +499,10 @@ Partial Class Main
     Friend WithEvents UtilPanel As Panel
     Friend WithEvents ServerName As Label
     Friend WithEvents Button1 As Button
+    Friend WithEvents MessageControls As Panel
+    Friend WithEvents AttachFile As ThemedButton
+    Friend WithEvents AttachmentPanel As Panel
+    Friend WithEvents CloseAttachmentPanel As ThemedButton
+    Friend WithEvents AttachmentStatus As Label
+    Friend WithEvents PictureBox1 As PictureBox
 End Class
