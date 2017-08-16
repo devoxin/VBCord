@@ -32,7 +32,7 @@ Public Class UserSettings
             e.Handled = True
             Dim res As Boolean = Await EditUser(Main.Discord.CurrentUser, Nothing, TextBox1.Text)
             Main.Username.Text = Main.Discord.CurrentUser.Username
-            Main.UserDiscrim.Text = Main.Discord.CurrentUser.Discriminator
+            Main.UserDiscrim.Text = $"#{Main.Discord.CurrentUser.Discriminator}"
             Application.DoEvents()
         End If
     End Sub
