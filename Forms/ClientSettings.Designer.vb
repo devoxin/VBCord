@@ -24,6 +24,7 @@ Partial Class ClientSettings
     Private Sub InitializeComponent()
         Me.FormTemplate1 = New CrimsonCord.CrimCordTheme()
         Me.CheckBox1 = New System.Windows.Forms.CheckBox()
+        Me.CheckBox2 = New System.Windows.Forms.CheckBox()
         Me.FormTemplate1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -31,6 +32,7 @@ Partial Class ClientSettings
         '
         Me.FormTemplate1.AccentColor = System.Drawing.Color.White
         Me.FormTemplate1.BackColor = System.Drawing.Color.FromArgb(CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer))
+        Me.FormTemplate1.Controls.Add(Me.CheckBox2)
         Me.FormTemplate1.Controls.Add(Me.CheckBox1)
         Me.FormTemplate1.DisplayClose = True
         Me.FormTemplate1.DisplayTitleBar = True
@@ -55,6 +57,17 @@ Partial Class ClientSettings
         Me.CheckBox1.Text = "Display Hidden Channels"
         Me.CheckBox1.UseVisualStyleBackColor = True
         '
+        'CheckBox2
+        '
+        Me.CheckBox2.AutoSize = True
+        Me.CheckBox2.ForeColor = System.Drawing.Color.White
+        Me.CheckBox2.Location = New System.Drawing.Point(12, 62)
+        Me.CheckBox2.Name = "CheckBox2"
+        Me.CheckBox2.Size = New System.Drawing.Size(137, 17)
+        Me.CheckBox2.TabIndex = 2
+        Me.CheckBox2.Text = "Log Message Deletions"
+        Me.CheckBox2.UseVisualStyleBackColor = True
+        '
         'ClientSettings
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -76,4 +89,5 @@ Partial Class ClientSettings
 
     Friend WithEvents FormTemplate1 As CrimCordTheme
     Friend WithEvents CheckBox1 As CheckBox
+    Friend WithEvents CheckBox2 As CheckBox
 End Class

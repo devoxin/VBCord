@@ -15,6 +15,7 @@ Public Class Main
     Dim focussedChannel As ULong
     Dim voiceConnection As Audio.IAudioClient
 
+    Public LogDeletions As Boolean = True
     Public DisplayHidden As Boolean = True
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -162,19 +163,6 @@ Public Class Main
         End If
     End Sub
 
-    Private Function MessageReceived(msg As SocketMessage) As Task Handles Discord.MessageReceived
-        If focussedChannel = msg.Channel.Id Then
-            Dim attachment = ""
-            If msg.Attachments.FirstOrDefault IsNot Nothing AndAlso msg.Attachments.FirstOrDefault.Url IsNot Nothing Then
-                attachment = msg.Attachments.FirstOrDefault.Url
-            End If
-            If attachment.Length = 0 AndAlso msg.Content.Length = 0 Then
-                Exit Function
-            End If
-            MessageContainer.Invoke(DirectCast(Sub() AddMessage(msg.Author, ResolveMentions(msg), attachment, msg), MethodInvoker))
-        End If
-    End Function
-
     Private Async Sub JoinVoiceChannel(sender As Object, e As EventArgs)
         Dim btn = DirectCast(sender, Button)
         Dim channel = Discord.GetGuild(focussedServer).GetVoiceChannel(btn.Tag)
@@ -263,6 +251,48 @@ Public Class Main
         End Select
     End Function
 
+    Private Function MessageReceived(msg As SocketMessage) As Task Handles Discord.MessageReceived
+        If focussedChannel = msg.Channel.Id Then
+            Dim attachment = ""
+            If msg.Attachments.FirstOrDefault IsNot Nothing AndAlso msg.Attachments.FirstOrDefault.Url IsNot Nothing Then
+                attachment = msg.Attachments.FirstOrDefault.Url
+            End If
+            If attachment.Length = 0 AndAlso msg.Content.Length = 0 Then
+                Exit Function
+            End If
+            MessageContainer.Invoke(DirectCast(Sub() AddMessage(msg.Author, ResolveMentions(msg), attachment, msg), MethodInvoker))
+        End If
+    End Function
+
+    Private Function Discord_MessageDeleted(msg As Cacheable(Of IMessage, ULong), channel As ISocketMessageChannel) As Task Handles Discord.MessageDeleted
+        If Not focussedChannel = channel.Id Or Not LogDeletions Then
+            Exit Function
+        End If
+
+        For Each ctrl As Message In MessageContainer.Controls
+            If ctrl.Tag = msg.Id Then
+                ctrl.Invoke(DirectCast(Sub() ctrl.Dispose(), MethodInvoker))
+                Exit For
+            End If
+        Next
+    End Function
+
+    Private Function Discord_MessageUpdated(msg As Cacheable(Of IMessage, ULong), sMsg As SocketMessage, channel As ISocketMessageChannel) As Task Handles Discord.MessageUpdated
+        If Not focussedChannel = channel.Id Then
+            Exit Function
+        End If
+
+        For Each ctrl As Message In MessageContainer.Controls
+            If ctrl.Tag = msg.Id Then
+                ctrl.Invoke(DirectCast(Sub()
+                                           ctrl.Label2.Text = ResolveMentions(sMsg)
+                                           ctrl.EditedIcon.Visible = True
+                                       End Sub, MethodInvoker))
+                Exit For
+            End If
+        Next
+    End Function
+
 #End Region
 
 #Region "Interface Management"
@@ -277,7 +307,8 @@ Public Class Main
 
     Private Sub AddMessage(ByVal mUser As IUser, mText As String, mAttachment As String, m As IMessage)
         Dim container As New Message With {
-            .Dock = DockStyle.Bottom
+            .Dock = DockStyle.Bottom,
+            .Tag = m.Id
         }
 
         If IsMentioned(m) Then
@@ -372,4 +403,5 @@ Public Class Main
         CloseAttachmentPanel.Visible = False
         AttachmentStatus.Text = "File sending..."
     End Sub
+
 End Class

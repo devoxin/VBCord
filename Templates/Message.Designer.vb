@@ -22,13 +22,16 @@ Partial Class Message
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Message))
         Me.Label1 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.EditedIcon = New System.Windows.Forms.PictureBox()
         Me.Timestamp = New System.Windows.Forms.Label()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
         Me.Panel1.SuspendLayout()
+        CType(Me.EditedIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -59,6 +62,7 @@ Partial Class Message
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.EditedIcon)
         Me.Panel1.Controls.Add(Me.Timestamp)
         Me.Panel1.Controls.Add(Me.Label1)
         Me.Panel1.Controls.Add(Me.PictureBox1)
@@ -68,20 +72,31 @@ Partial Class Message
         Me.Panel1.Size = New System.Drawing.Size(501, 40)
         Me.Panel1.TabIndex = 3
         '
+        'EditedIcon
+        '
+        Me.EditedIcon.BackgroundImage = CType(resources.GetObject("EditedIcon.BackgroundImage"), System.Drawing.Image)
+        Me.EditedIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.EditedIcon.Location = New System.Drawing.Point(128, 22)
+        Me.EditedIcon.Name = "EditedIcon"
+        Me.EditedIcon.Size = New System.Drawing.Size(16, 16)
+        Me.EditedIcon.TabIndex = 3
+        Me.EditedIcon.TabStop = False
+        Me.EditedIcon.Visible = False
+        '
         'Timestamp
         '
         Me.Timestamp.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.Timestamp.AutoSize = True
-        Me.Timestamp.Cursor = System.Windows.Forms.Cursors.Hand
+        Me.Timestamp.Cursor = System.Windows.Forms.Cursors.Default
         Me.Timestamp.Font = New System.Drawing.Font("Open Sans Light", 9.0!)
         Me.Timestamp.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
         Me.Timestamp.Location = New System.Drawing.Point(41, 21)
         Me.Timestamp.Name = "Timestamp"
-        Me.Timestamp.Size = New System.Drawing.Size(109, 17)
+        Me.Timestamp.Size = New System.Drawing.Size(87, 17)
         Me.Timestamp.TabIndex = 2
-        Me.Timestamp.Text = "Yesterday at 00:00"
+        Me.Timestamp.Text = "Today at 00:00"
         Me.Timestamp.TextAlign = System.Drawing.ContentAlignment.TopCenter
         '
         'PictureBox1
@@ -126,6 +141,7 @@ Partial Class Message
         Me.Size = New System.Drawing.Size(501, 89)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.EditedIcon, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -137,4 +153,5 @@ Partial Class Message
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Timestamp As System.Windows.Forms.Label
     Friend WithEvents LinkLabel1 As LinkLabel
+    Friend WithEvents EditedIcon As PictureBox
 End Class
