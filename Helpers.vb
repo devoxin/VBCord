@@ -51,25 +51,23 @@ Module Helpers
     End Function
 
     Public Function GetRoleColour(ByVal m As IGuildUser)
-        If m.RoleIds.Count = 0 Then
-            Return Drawing.Color.White
-        End If
 
-        Dim roles As List(Of IRole) = New List(Of IRole)
+        Dim roles As New List(Of IRole)
 
         For Each role In m.RoleIds
             roles.Add(m.Guild.GetRole(role))
         Next
 
-        roles = roles.OrderByDescending(Function(role) role.Position).ToList()
+        roles = roles _
+            .Where(Function(role) Not role.Color.RawValue = 0) _
+            .OrderByDescending(Function(role) role.Position).ToList()
 
-        For Each role In roles
-            If Not role.Color.RawValue = 0 Then
-                Return Drawing.Color.FromArgb(role.Color.R, role.Color.G, role.Color.B)
-            End If
-        Next
+        If roles.Count = 0 Then
+            Return Drawing.Color.White
+        End If
 
-        Return Drawing.Color.White
+        Return Drawing.Color.FromArgb(roles.First().Color.R, roles.First().Color.G, roles.First().Color.B)
+
     End Function
 
     Public Function ResolveTime(ByVal time As DateTimeOffset)
