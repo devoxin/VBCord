@@ -53,18 +53,6 @@ Namespace My
                 Return defaultInstance
             End Get
         End Property
-        
-        <Global.System.Configuration.UserScopedSettingAttribute(),  _
-         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-         Global.System.Configuration.DefaultSettingValueAttribute("1.0.5")>  _
-        Public Property version() As String
-            Get
-                Return CType(Me("version"),String)
-            End Get
-            Set
-                Me("version") = value
-            End Set
-        End Property
     End Class
 End Namespace
 

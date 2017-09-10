@@ -6,6 +6,8 @@ Imports Discord
 Imports Discord.WebSocket
 
 Public Class Main
+    Private version As String = "1.0.6"
+
     Public WithEvents Discord As DiscordSocketClient = New DiscordSocketClient(New DiscordSocketConfig With {
                                                                                .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
                                                                                .MessageCacheSize = 100
@@ -19,8 +21,6 @@ Public Class Main
     Public DisplayHidden As Boolean = True
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        CheckForUpdates()
-
         Dim loginDialog As New Login
         If loginDialog.ShowDialog() = DialogResult.OK Then
             Try
