@@ -354,27 +354,51 @@ Public Class Main
 
     Private Async Sub ImportMembers(ByVal g As IGuild)
         Dim members = Await g.GetUsersAsync(CacheMode.CacheOnly)
+        Dim roles = g.Roles() _
+            .Where(Function(role) role.IsHoisted AndAlso DirectCast(role, SocketRole).Members.Count > 0) _
+            .OrderByDescending(Function(role) role.Position).Reverse().ToList()
 
-        members = members _
-            .OrderByDescending(Function(user) user.Username).ToList()
+        Dim assigned As New List(Of ULong)
 
-        For Each m As IGuildUser In members
-            Dim holder As New Member With {
+        For Each role In roles
+
+            Dim rh As New RoleUserList
+            With rh
+                .RoleName.Text = role.Name
                 .Dock = DockStyle.Top
-            }
-            holder.Avatar.ImageLocation = m.GetAvatarUrl()
-            holder.Username.Text = DisplayName(m)
-            holder.Username.ForeColor = GetRoleColour(m)
-            If m.Game.ToString().Length > 0 Then
-                holder.Playing.Text = "Playing " & m.Game.ToString()
-            End If
+            End With
 
             Try
-                MembersList.Invoke(DirectCast(Sub() MembersList.Controls.Add(holder), MethodInvoker))
-                Invoke(DirectCast(Sub() Refresh(), MethodInvoker))
+                MembersList.Invoke(DirectCast(Sub() MembersList.Controls.Add(rh), MethodInvoker))
             Catch
-                ' Do Nothing
+                Exit Sub
             End Try
+
+            For Each m As IGuildUser In DirectCast(role, SocketRole).Members.OrderByDescending(Function(mem) mem.Username).Reverse()
+                If assigned.Contains(m.Id) Then
+                    Continue For
+                End If
+
+                assigned.Add(m.Id)
+                Dim holder As New Member With {
+                    .Dock = DockStyle.Bottom
+                }
+                holder.Avatar.ImageLocation = m.GetAvatarUrl()
+                holder.Username.Text = DisplayName(m)
+                holder.Username.ForeColor = GetRoleColour(m)
+                If m.Game.ToString().Length > 0 Then
+                    holder.Playing.Text = "Playing " & m.Game.ToString()
+                End If
+
+                Try
+                    rh.Invoke(DirectCast(Sub() rh.Controls.Add(holder), MethodInvoker))
+                    rh.Invoke(DirectCast(Sub() rh.Height = (45 * rh.Controls.Count - 45) + 30, MethodInvoker))
+                    Invoke(DirectCast(Sub() Refresh(), MethodInvoker))
+                Catch ex As Exception
+                    MsgBox(ex.Message)
+                    ' Do Nothing
+                End Try
+            Next
         Next
     End Sub
 

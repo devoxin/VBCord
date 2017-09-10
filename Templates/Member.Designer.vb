@@ -68,7 +68,7 @@ Partial Class Member
         Me.Controls.Add(Me.Avatar)
         Me.Controls.Add(Me.Username)
         Me.Name = "Member"
-        Me.Size = New System.Drawing.Size(206, 44)
+        Me.Size = New System.Drawing.Size(206, 45)
         CType(Me.Avatar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

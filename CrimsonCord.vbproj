@@ -221,6 +221,12 @@
     <Compile Include="Forms\UserSettings.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Templates\RoleUserList.Designer.vb">
+      <DependentUpon>RoleUserList.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\RoleUserList.vb">
+      <SubType>UserControl</SubType>
+    </Compile>
     <Compile Include="Templates\ThemedButton.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -252,6 +258,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\UserSettings.resx">
       <DependentUpon>UserSettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\RoleUserList.resx">
+      <DependentUpon>RoleUserList.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
