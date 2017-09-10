@@ -106,6 +106,7 @@ Public Class Main
             }
             holder.Avatar.ImageLocation = m.GetAvatarUrl()
             holder.Username.Text = DisplayName(m)
+            holder.Username.ForeColor = GetRoleColour(m)
             If m.Game.ToString().Length > 0 Then
                 holder.Playing.Text = "Playing " & m.Game.ToString()
             End If
