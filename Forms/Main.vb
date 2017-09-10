@@ -20,6 +20,8 @@ Public Class Main
     Public LogDeletions As Boolean = True
     Public DisplayHidden As Boolean = True
 
+    Private HelperThread As Threading.Thread
+
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim loginDialog As New Login
         If loginDialog.ShowDialog() = DialogResult.OK Then
@@ -44,8 +46,13 @@ Public Class Main
         Dim id As ULong = pb.Tag
         focussedServer = id
         focussedChannel = 0
-        MessageContainer.Controls.Clear()
 
+        If HelperThread IsNot Nothing Then
+            HelperThread.Abort()
+            HelperThread = Nothing
+        End If
+
+        MessageContainer.Controls.Clear()
         TextChannels.Controls.Clear()
         VoiceChannels.Controls.Clear()
         MembersList.Controls.Clear()
@@ -55,7 +62,6 @@ Public Class Main
 
         Dim txtChannels = Await server.GetTextChannelsAsync()
         Dim vcChannels = Await server.GetVoiceChannelsAsync()
-        Dim members = Await server.GetUsersAsync(CacheMode.CacheOnly)
 
         Dim _member = Await server.GetCurrentUserAsync(CacheMode.AllowDownload)
 
@@ -70,9 +76,6 @@ Public Class Main
 
         vcChannels = vcChannels _
             .OrderByDescending(Function(channel) channel.Position).ToList()
-
-        members = members _
-            .OrderByDescending(Function(user) user.Username).ToList()
 
         For Each c As ITextChannel In txtChannels
             Dim btn As New ThemedButton With {
@@ -100,18 +103,10 @@ Public Class Main
             VoiceChannels.Controls.Add(btn)
         Next
 
-        For Each m As IGuildUser In members
-            Dim holder As New Member With {
-                .Dock = DockStyle.Top
-            }
-            holder.Avatar.ImageLocation = m.GetAvatarUrl()
-            holder.Username.Text = DisplayName(m)
-            holder.Username.ForeColor = GetRoleColour(m)
-            If m.Game.ToString().Length > 0 Then
-                holder.Playing.Text = "Playing " & m.Game.ToString()
-            End If
-            MembersList.Controls.Add(holder)
-        Next
+        If (Await server.GetUsersAsync()).Count <= 500 Then
+            HelperThread = New Threading.Thread(Sub() ImportMembers(server))
+            HelperThread.Start()
+        End If
 
     End Sub
 
@@ -362,6 +357,32 @@ Public Class Main
 
     Private Sub MessageContainer_ControlAdded(sender As Object, e As ControlEventArgs) Handles MessageContainer.ControlAdded
         MessageContainer.AutoScrollPosition = New Point(0, MessageContainer.VerticalScroll.Maximum)
+    End Sub
+
+    Private Async Sub ImportMembers(ByVal g As IGuild)
+        Dim members = Await g.GetUsersAsync(CacheMode.CacheOnly)
+
+        members = members _
+            .OrderByDescending(Function(user) user.Username).ToList()
+
+        For Each m As IGuildUser In members
+            Dim holder As New Member With {
+                .Dock = DockStyle.Top
+            }
+            holder.Avatar.ImageLocation = m.GetAvatarUrl()
+            holder.Username.Text = DisplayName(m)
+            holder.Username.ForeColor = GetRoleColour(m)
+            If m.Game.ToString().Length > 0 Then
+                holder.Playing.Text = "Playing " & m.Game.ToString()
+            End If
+
+            Try
+                MembersList.Invoke(DirectCast(Sub() MembersList.Controls.Add(holder), MethodInvoker))
+                Invoke(DirectCast(Sub() Refresh(), MethodInvoker))
+            Catch
+                ' Do Nothing
+            End Try
+        Next
     End Sub
 
 #End Region
