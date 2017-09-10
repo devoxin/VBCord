@@ -28,9 +28,9 @@ Partial Class RoleUserList
         'RoleName
         '
         Me.RoleName.AutoEllipsis = True
-        Me.RoleName.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
+        Me.RoleName.BackColor = System.Drawing.Color.FromArgb(CType(CType(55, Byte), Integer), CType(CType(55, Byte), Integer), CType(CType(55, Byte), Integer))
         Me.RoleName.Dock = System.Windows.Forms.DockStyle.Top
-        Me.RoleName.Font = New System.Drawing.Font("Segoe UI", 11.0!)
+        Me.RoleName.Font = New System.Drawing.Font("Verdana", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RoleName.ForeColor = System.Drawing.Color.White
         Me.RoleName.Location = New System.Drawing.Point(0, 0)
         Me.RoleName.Name = "RoleName"
