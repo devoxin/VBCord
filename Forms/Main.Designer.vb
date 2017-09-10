@@ -54,6 +54,7 @@ Partial Class Main
         Me.UserDiscrim = New System.Windows.Forms.Label()
         Me.Username = New System.Windows.Forms.Label()
         Me.UserAvatar = New System.Windows.Forms.PictureBox()
+        Me.MembersList = New System.Windows.Forms.Panel()
         Me.CrimCordTheme1.SuspendLayout()
         Me.AttachmentPanel.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,6 +77,7 @@ Partial Class Main
         Me.CrimCordTheme1.Controls.Add(Me.MessageControls)
         Me.CrimCordTheme1.Controls.Add(Me.ChannelInfoContainer)
         Me.CrimCordTheme1.Controls.Add(Me.UtilPanel)
+        Me.CrimCordTheme1.Controls.Add(Me.MembersList)
         Me.CrimCordTheme1.DisplayClose = True
         Me.CrimCordTheme1.DisplayTitleBar = True
         Me.CrimCordTheme1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -96,7 +98,7 @@ Partial Class Main
         Me.MessageContainer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.MessageContainer.Location = New System.Drawing.Point(240, 61)
         Me.MessageContainer.Name = "MessageContainer"
-        Me.MessageContainer.Size = New System.Drawing.Size(992, 583)
+        Me.MessageContainer.Size = New System.Drawing.Size(786, 583)
         Me.MessageContainer.TabIndex = 5
         '
         'AttachmentPanel
@@ -107,7 +109,7 @@ Partial Class Main
         Me.AttachmentPanel.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.AttachmentPanel.Location = New System.Drawing.Point(240, 644)
         Me.AttachmentPanel.Name = "AttachmentPanel"
-        Me.AttachmentPanel.Size = New System.Drawing.Size(992, 46)
+        Me.AttachmentPanel.Size = New System.Drawing.Size(786, 46)
         Me.AttachmentPanel.TabIndex = 12
         Me.AttachmentPanel.Visible = False
         '
@@ -122,7 +124,7 @@ Partial Class Main
         Me.CloseAttachmentPanel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
         Me.CloseAttachmentPanel.FlatStyle = System.Windows.Forms.FlatStyle.Flat
         Me.CloseAttachmentPanel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
-        Me.CloseAttachmentPanel.Location = New System.Drawing.Point(946, 0)
+        Me.CloseAttachmentPanel.Location = New System.Drawing.Point(740, 0)
         Me.CloseAttachmentPanel.Name = "CloseAttachmentPanel"
         Me.CloseAttachmentPanel.Size = New System.Drawing.Size(46, 46)
         Me.CloseAttachmentPanel.TabIndex = 2
@@ -158,7 +160,7 @@ Partial Class Main
         Me.MessageControls.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.MessageControls.Location = New System.Drawing.Point(240, 690)
         Me.MessageControls.Name = "MessageControls"
-        Me.MessageControls.Size = New System.Drawing.Size(992, 46)
+        Me.MessageControls.Size = New System.Drawing.Size(786, 46)
         Me.MessageControls.TabIndex = 11
         '
         'MessageInput
@@ -171,7 +173,7 @@ Partial Class Main
         Me.MessageInput.Location = New System.Drawing.Point(46, 0)
         Me.MessageInput.Multiline = True
         Me.MessageInput.Name = "MessageInput"
-        Me.MessageInput.Size = New System.Drawing.Size(946, 46)
+        Me.MessageInput.Size = New System.Drawing.Size(740, 46)
         Me.MessageInput.TabIndex = 3
         '
         'AttachFile
@@ -198,7 +200,7 @@ Partial Class Main
         Me.ChannelInfoContainer.Dock = System.Windows.Forms.DockStyle.Top
         Me.ChannelInfoContainer.Location = New System.Drawing.Point(240, 27)
         Me.ChannelInfoContainer.Name = "ChannelInfoContainer"
-        Me.ChannelInfoContainer.Size = New System.Drawing.Size(992, 34)
+        Me.ChannelInfoContainer.Size = New System.Drawing.Size(786, 34)
         Me.ChannelInfoContainer.TabIndex = 9
         '
         'ChannelTopic
@@ -209,7 +211,7 @@ Partial Class Main
         Me.ChannelTopic.ForeColor = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer))
         Me.ChannelTopic.Location = New System.Drawing.Point(93, 0)
         Me.ChannelTopic.Name = "ChannelTopic"
-        Me.ChannelTopic.Size = New System.Drawing.Size(899, 34)
+        Me.ChannelTopic.Size = New System.Drawing.Size(693, 34)
         Me.ChannelTopic.TabIndex = 8
         Me.ChannelTopic.Text = "No Channel Selected."
         Me.ChannelTopic.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -446,6 +448,16 @@ Partial Class Main
         Me.UserAvatar.TabIndex = 0
         Me.UserAvatar.TabStop = False
         '
+        'MembersList
+        '
+        Me.MembersList.AutoScroll = True
+        Me.MembersList.AutoScrollMinSize = New System.Drawing.Size(10, 10)
+        Me.MembersList.Dock = System.Windows.Forms.DockStyle.Right
+        Me.MembersList.Location = New System.Drawing.Point(1026, 27)
+        Me.MembersList.Name = "MembersList"
+        Me.MembersList.Size = New System.Drawing.Size(206, 709)
+        Me.MembersList.TabIndex = 13
+        '
         'Main
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -506,4 +518,5 @@ Partial Class Main
     Friend WithEvents CloseAttachmentPanel As ThemedButton
     Friend WithEvents AttachmentStatus As Label
     Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents MembersList As Panel
 End Class

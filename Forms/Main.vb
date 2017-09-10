@@ -48,12 +48,14 @@ Public Class Main
 
         TextChannels.Controls.Clear()
         VoiceChannels.Controls.Clear()
+        MembersList.Controls.Clear()
 
         Dim server As IGuild = Discord.GetGuild(id)
         ServerName.Text = server.Name
 
         Dim txtChannels = Await server.GetTextChannelsAsync()
         Dim vcChannels = Await server.GetVoiceChannelsAsync()
+        Dim members = Await server.GetUsersAsync(CacheMode.CacheOnly)
 
         Dim _member = Await server.GetCurrentUserAsync(CacheMode.AllowDownload)
 
@@ -69,33 +71,47 @@ Public Class Main
         vcChannels = vcChannels _
             .OrderByDescending(Function(channel) channel.Position).ToList()
 
+        members = members _
+            .OrderByDescending(Function(user) user.Username).ToList()
+
         For Each c As ITextChannel In txtChannels
-            Dim btn As New ThemedButton
-            With btn
-                .Dock = DockStyle.Top
-                .Height = 30
-                .Text = c.Name
-                .Tag = c.Id
-                .TextAlign = ContentAlignment.MiddleLeft
+            Dim btn As New ThemedButton With {
+                .Dock = DockStyle.Top,
+                .Height = 30,
+                .Text = c.Name,
+                .Tag = c.Id,
+                .TextAlign = ContentAlignment.MiddleLeft,
                 .Padding = New Padding(TextChannels.Width * 0.05, 0, 0, 0)
-            End With
+            }
             AddHandler btn.Click, AddressOf SwitchChannel
             TextChannels.Controls.Add(btn)
         Next
 
         For Each c As IVoiceChannel In vcChannels
-            Dim btn As New ThemedButton
-            With btn
-                .Dock = DockStyle.Top
-                .Height = 30
-                .Text = c.Name
-                .Tag = c.Id
-                .TextAlign = ContentAlignment.MiddleLeft
+            Dim btn As New ThemedButton With {
+                .Dock = DockStyle.Top,
+                .Height = 30,
+                .Text = c.Name,
+                .Tag = c.Id,
+                .TextAlign = ContentAlignment.MiddleLeft,
                 .Padding = New Padding(VoiceChannels.Width * 0.05, 0, 0, 0)
-            End With
+            }
             AddHandler btn.Click, AddressOf JoinVoiceChannel
             VoiceChannels.Controls.Add(btn)
         Next
+
+        For Each m As IGuildUser In members
+            Dim holder As New Member With {
+                .Dock = DockStyle.Top
+            }
+            holder.Avatar.ImageLocation = m.GetAvatarUrl()
+            holder.Username.Text = DisplayName(m)
+            If m.Game.ToString().Length > 0 Then
+                holder.Playing.Text = "Playing " & m.Game.ToString()
+            End If
+            MembersList.Controls.Add(holder)
+        Next
+
     End Sub
 
     Private Async Sub SwitchChannel(ByVal sender As Object, e As EventArgs)

@@ -2,7 +2,7 @@
 Imports System.Text.RegularExpressions
 Imports Discord
 
-Module ApplicationF
+Module Helpers
 
     Public Sub CheckForUpdates()
 
@@ -55,6 +55,14 @@ Module ApplicationF
 
     Public Function IsMentioned(ByVal m As IMessage)
         Return m.MentionedUserIds.Contains(Main.Discord.CurrentUser.Id)
+    End Function
+
+    Public Function DisplayName(ByVal m As IGuildUser)
+        If m.Nickname IsNot Nothing Then
+            Return m.Nickname
+        Else
+            Return m.Username
+        End If
     End Function
 
     Public Function ResolveTime(ByVal time As DateTimeOffset)

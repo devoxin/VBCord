@@ -156,7 +156,7 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ApplicationF.vb" />
+    <Compile Include="Helpers.vb" />
     <Compile Include="Forms\Login.Designer.vb">
       <DependentUpon>Login.vb</DependentUpon>
     </Compile>
@@ -181,6 +181,12 @@
     </Compile>
     <Compile Include="Templates\CrimCordTheme.vb">
       <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Templates\Member.Designer.vb">
+      <DependentUpon>Member.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Templates\Member.vb">
+      <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Templates\Message.Designer.vb">
       <DependentUpon>Message.vb</DependentUpon>
@@ -222,6 +228,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ClientSettings.resx">
       <DependentUpon>ClientSettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Templates\Member.resx">
+      <DependentUpon>Member.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Templates\Message.resx">
       <DependentUpon>Message.vb</DependentUpon>
