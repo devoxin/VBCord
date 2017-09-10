@@ -156,6 +156,12 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Forms\ServerOverview.Designer.vb">
+      <DependentUpon>ServerOverview.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ServerOverview.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Helpers.vb" />
     <Compile Include="Forms\Login.Designer.vb">
       <DependentUpon>Login.vb</DependentUpon>
@@ -228,6 +234,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\ClientSettings.resx">
       <DependentUpon>ClientSettings.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\ServerOverview.resx">
+      <DependentUpon>ServerOverview.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Templates\Member.resx">
       <DependentUpon>Member.vb</DependentUpon>

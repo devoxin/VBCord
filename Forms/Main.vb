@@ -43,8 +43,11 @@ Public Class Main
 
     Private Async Sub SwitchServer(ByVal sender As Object, e As EventArgs)
         Dim pb = DirectCast(sender, PictureBox)
-        Dim id As ULong = pb.Tag
-        focussedServer = id
+        If pb.Tag = focussedServer Then
+            Exit Sub
+        End If
+
+        focussedServer = pb.Tag
         focussedChannel = 0
 
         If HelperThread IsNot Nothing Then
@@ -57,7 +60,7 @@ Public Class Main
         VoiceChannels.Controls.Clear()
         MembersList.Controls.Clear()
 
-        Dim server As IGuild = Discord.GetGuild(id)
+        Dim server As IGuild = Discord.GetGuild(focussedServer)
         ServerName.Text = server.Name
 
         Dim txtChannels = Await server.GetTextChannelsAsync()
@@ -103,7 +106,7 @@ Public Class Main
             VoiceChannels.Controls.Add(btn)
         Next
 
-        If (Await server.GetUsersAsync()).Count <= 500 Then
+        If (Await server.GetUsersAsync()).Count <= 300 Then
             HelperThread = New Threading.Thread(Sub() ImportMembers(server))
             HelperThread.Start()
         End If
@@ -226,7 +229,8 @@ Public Class Main
                 .Dock = DockStyle.Top,
                 .Height = 62,
                 .SizeMode = PictureBoxSizeMode.Zoom,
-                .Tag = g.Id
+                .Tag = g.Id,
+                .ContextMenuStrip = ContextMenuStrip1
             }
             If g.IconUrl IsNot Nothing Then
                 pb.ImageLocation = g.IconUrl.Replace("jpg", "png")
@@ -238,18 +242,6 @@ Public Class Main
             AddServer(pb)
         Next
 
-        'For i As Integer = 0 To Discord.DMChannels.Count - 1 Step 1
-        '    Dim btn As New ThemedButton
-        '    With btn
-        '        .Dock = DockStyle.Top
-        '        .Height = 30
-        '        .Text = Discord.DMChannels(i).Recipient.Username
-        '        .TextAlign = ContentAlignment.MiddleLeft
-        '        .Tag = Discord.DMChannels(i).Id
-        '    End With
-        '    AddHandler btn.Click, AddressOf SwitchChannel
-        '    AddChannel(btn)
-        'Next
     End Function
 
     Private Function UpdateLatency() As Task
@@ -442,4 +434,41 @@ Public Class Main
         AttachmentStatus.Text = "File sending..."
     End Sub
 
+    Private Sub CopyIDToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles CopyIDToolStripMenuItem.Click
+        Dim selected As PictureBox = DirectCast(ContextMenuStrip1.SourceControl, PictureBox)
+        My.Computer.Clipboard.SetText(selected.Tag)
+    End Sub
+
+    Private Async Sub LeaveToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles LeaveToolStripMenuItem.Click
+        Dim selected As PictureBox = DirectCast(ContextMenuStrip1.SourceControl, PictureBox)
+        Dim server As IGuild = Discord.GetGuild(selected.Tag)
+        If server IsNot Nothing Then
+            Await server.LeaveAsync()
+        End If
+        selected.Dispose()
+    End Sub
+
+    Private Async Sub ViewInfoToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ViewInfoToolStripMenuItem.Click
+        Dim selected As PictureBox = DirectCast(ContextMenuStrip1.SourceControl, PictureBox)
+        Dim server As IGuild = Discord.GetGuild(selected.Tag)
+        If server Is Nothing Then
+            selected.Dispose()
+            MsgBox("Server not found")
+            Exit Sub
+        End If
+
+        Dim owner As IGuildUser = Await server.GetOwnerAsync()
+        Dim members = Await server.GetUsersAsync()
+
+        Dim bots = members.Where(Function(member) member.IsBot).Count
+
+        With New ServerOverview
+            .ServerName.Text = $"{server.Name} ({server.Id})"
+            .ServerIcon.ImageLocation = server.IconUrl
+            .ServerOwner.Text = $"Owner: {owner.Username}#{owner.Discriminator} ({owner.Id})"
+            .MemberInfo.Text = $"Bots: {bots} ({Math.Round(bots / members.Count * 100, 2)}%){vbNewLine}Total Members: {members.Count}"
+            .ShowDialog()
+        End With
+
+    End Sub
 End Class

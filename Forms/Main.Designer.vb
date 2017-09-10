@@ -22,16 +22,18 @@ Partial Class Main
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Main))
+        Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
+        Me.CopyIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.LeaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.CrimCordTheme1 = New CrimsonCord.CrimCordTheme()
         Me.MessageContainer = New System.Windows.Forms.Panel()
         Me.AttachmentPanel = New System.Windows.Forms.Panel()
-        Me.CloseAttachmentPanel = New CrimsonCord.ThemedButton()
         Me.AttachmentStatus = New System.Windows.Forms.Label()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.MessageControls = New System.Windows.Forms.Panel()
         Me.MessageInput = New System.Windows.Forms.TextBox()
-        Me.AttachFile = New CrimsonCord.ThemedButton()
         Me.ChannelInfoContainer = New System.Windows.Forms.Panel()
         Me.ChannelTopic = New System.Windows.Forms.Label()
         Me.ChannelName = New System.Windows.Forms.Label()
@@ -44,29 +46,63 @@ Partial Class Main
         Me.ServerName = New System.Windows.Forms.Label()
         Me.Servers = New System.Windows.Forms.Panel()
         Me.VoicePanel = New System.Windows.Forms.Panel()
-        Me.Disconnect = New System.Windows.Forms.Button()
-        Me.LatencyImage = New System.Windows.Forms.PictureBox()
         Me.VoiceName = New System.Windows.Forms.Label()
         Me.VoiceStatus = New System.Windows.Forms.Label()
         Me.UserInfo = New System.Windows.Forms.Panel()
-        Me.Button1 = New System.Windows.Forms.Button()
-        Me.Button2 = New System.Windows.Forms.Button()
         Me.UserDiscrim = New System.Windows.Forms.Label()
         Me.Username = New System.Windows.Forms.Label()
-        Me.UserAvatar = New System.Windows.Forms.PictureBox()
         Me.MembersList = New System.Windows.Forms.Panel()
+        Me.ViewInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.CloseAttachmentPanel = New CrimsonCord.ThemedButton()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.AttachFile = New CrimsonCord.ThemedButton()
+        Me.Disconnect = New System.Windows.Forms.Button()
+        Me.LatencyImage = New System.Windows.Forms.PictureBox()
+        Me.Button1 = New System.Windows.Forms.Button()
+        Me.Button2 = New System.Windows.Forms.Button()
+        Me.UserAvatar = New System.Windows.Forms.PictureBox()
+        Me.ContextMenuStrip1.SuspendLayout()
         Me.CrimCordTheme1.SuspendLayout()
         Me.AttachmentPanel.SuspendLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MessageControls.SuspendLayout()
         Me.ChannelInfoContainer.SuspendLayout()
         Me.UtilPanel.SuspendLayout()
         Me.ChannelContainer.SuspendLayout()
         Me.VoicePanel.SuspendLayout()
-        CType(Me.LatencyImage, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.UserInfo.SuspendLayout()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LatencyImage, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.UserAvatar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
+        '
+        'ContextMenuStrip1
+        '
+        Me.ContextMenuStrip1.BackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.ContextMenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ViewInfoToolStripMenuItem, Me.CopyIDToolStripMenuItem, Me.ToolStripSeparator1, Me.LeaveToolStripMenuItem})
+        Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
+        Me.ContextMenuStrip1.RenderMode = System.Windows.Forms.ToolStripRenderMode.System
+        Me.ContextMenuStrip1.Size = New System.Drawing.Size(153, 98)
+        '
+        'CopyIDToolStripMenuItem
+        '
+        Me.CopyIDToolStripMenuItem.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.CopyIDToolStripMenuItem.ForeColor = System.Drawing.Color.White
+        Me.CopyIDToolStripMenuItem.Name = "CopyIDToolStripMenuItem"
+        Me.CopyIDToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.CopyIDToolStripMenuItem.Text = "Copy ID"
+        '
+        'LeaveToolStripMenuItem
+        '
+        Me.LeaveToolStripMenuItem.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.LeaveToolStripMenuItem.ForeColor = System.Drawing.Color.White
+        Me.LeaveToolStripMenuItem.Name = "LeaveToolStripMenuItem"
+        Me.LeaveToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.LeaveToolStripMenuItem.Text = "Leave"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(149, 6)
         '
         'CrimCordTheme1
         '
@@ -113,24 +149,6 @@ Partial Class Main
         Me.AttachmentPanel.TabIndex = 12
         Me.AttachmentPanel.Visible = False
         '
-        'CloseAttachmentPanel
-        '
-        Me.CloseAttachmentPanel.BackColor = System.Drawing.Color.FromArgb(CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer))
-        Me.CloseAttachmentPanel.BackgroundImage = CType(resources.GetObject("CloseAttachmentPanel.BackgroundImage"), System.Drawing.Image)
-        Me.CloseAttachmentPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.CloseAttachmentPanel.Dock = System.Windows.Forms.DockStyle.Right
-        Me.CloseAttachmentPanel.FlatAppearance.BorderSize = 0
-        Me.CloseAttachmentPanel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.CloseAttachmentPanel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
-        Me.CloseAttachmentPanel.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.CloseAttachmentPanel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
-        Me.CloseAttachmentPanel.Location = New System.Drawing.Point(740, 0)
-        Me.CloseAttachmentPanel.Name = "CloseAttachmentPanel"
-        Me.CloseAttachmentPanel.Size = New System.Drawing.Size(46, 46)
-        Me.CloseAttachmentPanel.TabIndex = 2
-        Me.CloseAttachmentPanel.UseVisualStyleBackColor = False
-        Me.CloseAttachmentPanel.Visible = False
-        '
         'AttachmentStatus
         '
         Me.AttachmentStatus.AutoSize = True
@@ -141,17 +159,6 @@ Partial Class Main
         Me.AttachmentStatus.Size = New System.Drawing.Size(103, 20)
         Me.AttachmentStatus.TabIndex = 1
         Me.AttachmentStatus.Text = "File sending..."
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
-        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Left
-        Me.PictureBox1.Location = New System.Drawing.Point(0, 0)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(46, 46)
-        Me.PictureBox1.TabIndex = 0
-        Me.PictureBox1.TabStop = False
         '
         'MessageControls
         '
@@ -175,23 +182,6 @@ Partial Class Main
         Me.MessageInput.Name = "MessageInput"
         Me.MessageInput.Size = New System.Drawing.Size(740, 46)
         Me.MessageInput.TabIndex = 3
-        '
-        'AttachFile
-        '
-        Me.AttachFile.BackColor = System.Drawing.Color.FromArgb(CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer))
-        Me.AttachFile.BackgroundImage = CType(resources.GetObject("AttachFile.BackgroundImage"), System.Drawing.Image)
-        Me.AttachFile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.AttachFile.Dock = System.Windows.Forms.DockStyle.Left
-        Me.AttachFile.FlatAppearance.BorderSize = 0
-        Me.AttachFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.AttachFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
-        Me.AttachFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.AttachFile.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
-        Me.AttachFile.Location = New System.Drawing.Point(0, 0)
-        Me.AttachFile.Name = "AttachFile"
-        Me.AttachFile.Size = New System.Drawing.Size(46, 46)
-        Me.AttachFile.TabIndex = 10
-        Me.AttachFile.UseVisualStyleBackColor = False
         '
         'ChannelInfoContainer
         '
@@ -329,27 +319,6 @@ Partial Class Main
         Me.VoicePanel.TabIndex = 9
         Me.VoicePanel.Visible = False
         '
-        'Disconnect
-        '
-        Me.Disconnect.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Disconnect.BackgroundImage = CType(resources.GetObject("Disconnect.BackgroundImage"), System.Drawing.Image)
-        Me.Disconnect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
-        Me.Disconnect.FlatAppearance.BorderSize = 0
-        Me.Disconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Disconnect.Location = New System.Drawing.Point(205, 7)
-        Me.Disconnect.Name = "Disconnect"
-        Me.Disconnect.Size = New System.Drawing.Size(32, 32)
-        Me.Disconnect.TabIndex = 4
-        Me.Disconnect.UseVisualStyleBackColor = True
-        '
-        'LatencyImage
-        '
-        Me.LatencyImage.Location = New System.Drawing.Point(3, 7)
-        Me.LatencyImage.Name = "LatencyImage"
-        Me.LatencyImage.Size = New System.Drawing.Size(32, 32)
-        Me.LatencyImage.TabIndex = 3
-        Me.LatencyImage.TabStop = False
-        '
         'VoiceName
         '
         Me.VoiceName.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
@@ -388,6 +357,115 @@ Partial Class Main
         Me.UserInfo.Size = New System.Drawing.Size(240, 46)
         Me.UserInfo.TabIndex = 8
         '
+        'UserDiscrim
+        '
+        Me.UserDiscrim.AutoEllipsis = True
+        Me.UserDiscrim.Font = New System.Drawing.Font("Open Sans", 8.0!)
+        Me.UserDiscrim.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
+        Me.UserDiscrim.Location = New System.Drawing.Point(44, 23)
+        Me.UserDiscrim.Name = "UserDiscrim"
+        Me.UserDiscrim.Size = New System.Drawing.Size(62, 16)
+        Me.UserDiscrim.TabIndex = 2
+        Me.UserDiscrim.Text = "#9999"
+        '
+        'Username
+        '
+        Me.Username.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Username.AutoEllipsis = True
+        Me.Username.Font = New System.Drawing.Font("Open Sans", 9.0!)
+        Me.Username.ForeColor = System.Drawing.Color.White
+        Me.Username.Location = New System.Drawing.Point(44, 7)
+        Me.Username.Name = "Username"
+        Me.Username.Size = New System.Drawing.Size(193, 16)
+        Me.Username.TabIndex = 1
+        Me.Username.Text = "Username"
+        '
+        'MembersList
+        '
+        Me.MembersList.AutoScroll = True
+        Me.MembersList.AutoScrollMinSize = New System.Drawing.Size(10, 10)
+        Me.MembersList.Dock = System.Windows.Forms.DockStyle.Right
+        Me.MembersList.Location = New System.Drawing.Point(1026, 27)
+        Me.MembersList.Name = "MembersList"
+        Me.MembersList.Size = New System.Drawing.Size(206, 709)
+        Me.MembersList.TabIndex = 13
+        '
+        'ViewInfoToolStripMenuItem
+        '
+        Me.ViewInfoToolStripMenuItem.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.ViewInfoToolStripMenuItem.ForeColor = System.Drawing.Color.White
+        Me.ViewInfoToolStripMenuItem.Name = "ViewInfoToolStripMenuItem"
+        Me.ViewInfoToolStripMenuItem.Size = New System.Drawing.Size(152, 22)
+        Me.ViewInfoToolStripMenuItem.Text = "Overview"
+        '
+        'CloseAttachmentPanel
+        '
+        Me.CloseAttachmentPanel.BackColor = System.Drawing.Color.FromArgb(CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer))
+        Me.CloseAttachmentPanel.BackgroundImage = CType(resources.GetObject("CloseAttachmentPanel.BackgroundImage"), System.Drawing.Image)
+        Me.CloseAttachmentPanel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.CloseAttachmentPanel.Dock = System.Windows.Forms.DockStyle.Right
+        Me.CloseAttachmentPanel.FlatAppearance.BorderSize = 0
+        Me.CloseAttachmentPanel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.CloseAttachmentPanel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
+        Me.CloseAttachmentPanel.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CloseAttachmentPanel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
+        Me.CloseAttachmentPanel.Location = New System.Drawing.Point(740, 0)
+        Me.CloseAttachmentPanel.Name = "CloseAttachmentPanel"
+        Me.CloseAttachmentPanel.Size = New System.Drawing.Size(46, 46)
+        Me.CloseAttachmentPanel.TabIndex = 2
+        Me.CloseAttachmentPanel.UseVisualStyleBackColor = False
+        Me.CloseAttachmentPanel.Visible = False
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.BackgroundImage = CType(resources.GetObject("PictureBox1.BackgroundImage"), System.Drawing.Image)
+        Me.PictureBox1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Left
+        Me.PictureBox1.Location = New System.Drawing.Point(0, 0)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(46, 46)
+        Me.PictureBox1.TabIndex = 0
+        Me.PictureBox1.TabStop = False
+        '
+        'AttachFile
+        '
+        Me.AttachFile.BackColor = System.Drawing.Color.FromArgb(CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer), CType(CType(75, Byte), Integer))
+        Me.AttachFile.BackgroundImage = CType(resources.GetObject("AttachFile.BackgroundImage"), System.Drawing.Image)
+        Me.AttachFile.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.AttachFile.Dock = System.Windows.Forms.DockStyle.Left
+        Me.AttachFile.FlatAppearance.BorderSize = 0
+        Me.AttachFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
+        Me.AttachFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
+        Me.AttachFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.AttachFile.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
+        Me.AttachFile.Location = New System.Drawing.Point(0, 0)
+        Me.AttachFile.Name = "AttachFile"
+        Me.AttachFile.Size = New System.Drawing.Size(46, 46)
+        Me.AttachFile.TabIndex = 10
+        Me.AttachFile.UseVisualStyleBackColor = False
+        '
+        'Disconnect
+        '
+        Me.Disconnect.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.Disconnect.BackgroundImage = CType(resources.GetObject("Disconnect.BackgroundImage"), System.Drawing.Image)
+        Me.Disconnect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom
+        Me.Disconnect.FlatAppearance.BorderSize = 0
+        Me.Disconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.Disconnect.Location = New System.Drawing.Point(205, 7)
+        Me.Disconnect.Name = "Disconnect"
+        Me.Disconnect.Size = New System.Drawing.Size(32, 32)
+        Me.Disconnect.TabIndex = 4
+        Me.Disconnect.UseVisualStyleBackColor = True
+        '
+        'LatencyImage
+        '
+        Me.LatencyImage.Location = New System.Drawing.Point(3, 7)
+        Me.LatencyImage.Name = "LatencyImage"
+        Me.LatencyImage.Size = New System.Drawing.Size(32, 32)
+        Me.LatencyImage.TabIndex = 3
+        Me.LatencyImage.TabStop = False
+        '
         'Button1
         '
         Me.Button1.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -415,30 +493,6 @@ Partial Class Main
         Me.Button2.TabIndex = 5
         Me.Button2.UseVisualStyleBackColor = True
         '
-        'UserDiscrim
-        '
-        Me.UserDiscrim.AutoEllipsis = True
-        Me.UserDiscrim.Font = New System.Drawing.Font("Open Sans", 8.0!)
-        Me.UserDiscrim.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
-        Me.UserDiscrim.Location = New System.Drawing.Point(44, 23)
-        Me.UserDiscrim.Name = "UserDiscrim"
-        Me.UserDiscrim.Size = New System.Drawing.Size(62, 16)
-        Me.UserDiscrim.TabIndex = 2
-        Me.UserDiscrim.Text = "#9999"
-        '
-        'Username
-        '
-        Me.Username.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.Username.AutoEllipsis = True
-        Me.Username.Font = New System.Drawing.Font("Open Sans", 9.0!)
-        Me.Username.ForeColor = System.Drawing.Color.White
-        Me.Username.Location = New System.Drawing.Point(44, 7)
-        Me.Username.Name = "Username"
-        Me.Username.Size = New System.Drawing.Size(193, 16)
-        Me.Username.TabIndex = 1
-        Me.Username.Text = "Username"
-        '
         'UserAvatar
         '
         Me.UserAvatar.Location = New System.Drawing.Point(6, 7)
@@ -447,16 +501,6 @@ Partial Class Main
         Me.UserAvatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
         Me.UserAvatar.TabIndex = 0
         Me.UserAvatar.TabStop = False
-        '
-        'MembersList
-        '
-        Me.MembersList.AutoScroll = True
-        Me.MembersList.AutoScrollMinSize = New System.Drawing.Size(10, 10)
-        Me.MembersList.Dock = System.Windows.Forms.DockStyle.Right
-        Me.MembersList.Location = New System.Drawing.Point(1026, 27)
-        Me.MembersList.Name = "MembersList"
-        Me.MembersList.Size = New System.Drawing.Size(206, 709)
-        Me.MembersList.TabIndex = 13
         '
         'Main
         '
@@ -471,18 +515,19 @@ Partial Class Main
         Me.ShowIcon = False
         Me.Text = "VBCord"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
+        Me.ContextMenuStrip1.ResumeLayout(False)
         Me.CrimCordTheme1.ResumeLayout(False)
         Me.AttachmentPanel.ResumeLayout(False)
         Me.AttachmentPanel.PerformLayout()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MessageControls.ResumeLayout(False)
         Me.MessageControls.PerformLayout()
         Me.ChannelInfoContainer.ResumeLayout(False)
         Me.UtilPanel.ResumeLayout(False)
         Me.ChannelContainer.ResumeLayout(False)
         Me.VoicePanel.ResumeLayout(False)
-        CType(Me.LatencyImage, System.ComponentModel.ISupportInitialize).EndInit()
         Me.UserInfo.ResumeLayout(False)
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LatencyImage, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.UserAvatar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -519,4 +564,9 @@ Partial Class Main
     Friend WithEvents AttachmentStatus As Label
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents MembersList As Panel
+    Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
+    Friend WithEvents CopyIDToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ToolStripSeparator1 As ToolStripSeparator
+    Friend WithEvents LeaveToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ViewInfoToolStripMenuItem As ToolStripMenuItem
 End Class

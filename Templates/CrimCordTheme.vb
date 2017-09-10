@@ -48,7 +48,8 @@
 
         With Me
             .BackColor = Color.FromArgb(50, 50, 50)
-            .Controls.Add(titlebar)
+            .Controls.Add(TitleBar)
+            .Dock = DockStyle.Fill
         End With
 
         AddHandler closebutton.Click, AddressOf CloseClicked
