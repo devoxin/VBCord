@@ -1,12 +1,12 @@
 ﻿Option Explicit On
 #Disable Warning BC42105 'Functions don't return. Doesn't really matter as they don't need to here.
-#Disable Warning BC42358 'Awaitable functions aren't awaited (Ignore warning from 'UpdateLatency()'
+#Disable Warning BC42358 'Awaitable functions aren't awaited (Ignore warning from 'UpdateLatency())'
 
 Imports Discord
 Imports Discord.WebSocket
 
 Public Class Main
-    Private version As String = "1.0.6"
+    Private version As String = "1.0.7"
 
     Public WithEvents Discord As DiscordSocketClient = New DiscordSocketClient(New DiscordSocketConfig With {
                                                                                .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
