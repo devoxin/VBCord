@@ -95,6 +95,7 @@ Public Class Main
 
         For Each c As IVoiceChannel In vcChannels
             Dim btn As New ThemedButton With {
+                .Enabled = _member.GetPermissions(c).Connect,
                 .Dock = DockStyle.Top,
                 .Height = 30,
                 .Text = c.Name,
