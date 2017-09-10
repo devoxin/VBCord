@@ -1,2 +1,1 @@
 ﻿-> Resize on custom form
--> Member list
