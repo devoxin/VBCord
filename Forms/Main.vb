@@ -6,7 +6,7 @@ Imports Discord
 Imports Discord.WebSocket
 
 Public Class Main
-    Private version As String = "1.0.7"
+    Private version As String = "1.0.8"
 
     Public WithEvents Discord As DiscordSocketClient = New DiscordSocketClient(New DiscordSocketConfig With {
                                                                                .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
@@ -355,13 +355,12 @@ Public Class Main
     Private Async Sub ImportMembers(ByVal g As IGuild)
         Dim members = Await g.GetUsersAsync(CacheMode.CacheOnly)
         Dim roles = g.Roles() _
-            .Where(Function(role) role.IsHoisted AndAlso DirectCast(role, SocketRole).Members.Count > 0) _
-            .OrderByDescending(Function(role) role.Position).Reverse().ToList()
+            .Where(Function(role) (role.Position = 0 Or role.IsHoisted) AndAlso DirectCast(role, SocketRole).Members.Count > 0) _
+            .OrderByDescending(Function(role) role.Position).ToList() ' @everyone role or custom
 
         Dim assigned As New List(Of ULong)
 
         For Each role In roles
-
             Dim rh As New RoleUserList
             With rh
                 .RoleName.Text = role.Name
@@ -374,7 +373,7 @@ Public Class Main
                 Exit Sub
             End Try
 
-            For Each m As IGuildUser In DirectCast(role, SocketRole).Members.OrderByDescending(Function(mem) mem.Username).Reverse()
+            For Each m As IGuildUser In DirectCast(role, SocketRole).Members.OrderBy(Function(mem) mem.Username)
                 If assigned.Contains(m.Id) Then
                     Continue For
                 End If
@@ -395,7 +394,6 @@ Public Class Main
                     rh.Invoke(DirectCast(Sub() rh.Height = (45 * rh.Controls.Count - 45) + 30, MethodInvoker))
                     Invoke(DirectCast(Sub() Refresh(), MethodInvoker))
                 Catch ex As Exception
-                    MsgBox(ex.Message)
                     ' Do Nothing
                 End Try
             Next
@@ -495,5 +493,25 @@ Public Class Main
             .ShowDialog()
         End With
 
+    End Sub
+
+    Private Sub FindToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FindToolStripMenuItem.Click
+        Dim input = InputBox("Enter Server ID:")
+
+        If Not ULong.TryParse(input, input) Then
+            MsgBox("Unable to parse ID.")
+            Exit Sub
+        End If
+
+        Dim server As IGuild = Discord.GetGuild(input)
+        If server Is Nothing Then
+            MsgBox("No servers found matching that ID")
+        End If
+
+        MsgBox(server.Name) ' TODO: Make this actually do something better
+    End Sub
+
+    Private Sub MembersList_ControlAdded(sender As Object, e As ControlEventArgs) Handles MembersList.ControlAdded
+        e.Control.BringToFront()
     End Sub
 End Class

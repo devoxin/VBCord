@@ -35,7 +35,7 @@ Partial Class Member
         Me.Username.ForeColor = System.Drawing.Color.White
         Me.Username.Location = New System.Drawing.Point(41, 3)
         Me.Username.Name = "Username"
-        Me.Username.Size = New System.Drawing.Size(141, 19)
+        Me.Username.Size = New System.Drawing.Size(141, 20)
         Me.Username.TabIndex = 0
         Me.Username.Text = "Username"
         '
