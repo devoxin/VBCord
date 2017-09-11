@@ -361,42 +361,47 @@ Public Class Main
         Dim assigned As New List(Of ULong)
 
         For Each role In roles
+
+            If DirectCast(role, SocketRole).Members.Where(Function(m) Not assigned.Contains(m.Id)).Count = 0 Then
+                Continue For ' Ignore blank roles
+            End If
+
             Dim rh As New RoleUserList
-            With rh
-                .RoleName.Text = role.Name
-                .Dock = DockStyle.Top
-            End With
-
-            Try
-                MembersList.Invoke(DirectCast(Sub() MembersList.Controls.Add(rh), MethodInvoker))
-            Catch
-                Exit Sub
-            End Try
-
-            For Each m As IGuildUser In DirectCast(role, SocketRole).Members.OrderBy(Function(mem) mem.Username)
-                If assigned.Contains(m.Id) Then
-                    Continue For
-                End If
-
-                assigned.Add(m.Id)
-                Dim holder As New Member With {
-                    .Dock = DockStyle.Bottom
-                }
-                holder.Avatar.ImageLocation = m.GetAvatarUrl()
-                holder.Username.Text = DisplayName(m)
-                holder.Username.ForeColor = GetRoleColour(m)
-                If m.Game.ToString().Length > 0 Then
-                    holder.Playing.Text = "Playing " & m.Game.ToString()
-                End If
+                With rh
+                    .RoleName.Text = role.Name
+                    .Dock = DockStyle.Top
+                End With
 
                 Try
-                    rh.Invoke(DirectCast(Sub() rh.Controls.Add(holder), MethodInvoker))
-                    rh.Invoke(DirectCast(Sub() rh.Height = (45 * rh.Controls.Count - 45) + 30, MethodInvoker))
-                    Invoke(DirectCast(Sub() Refresh(), MethodInvoker))
-                Catch ex As Exception
-                    ' Do Nothing
+                    MembersList.Invoke(DirectCast(Sub() MembersList.Controls.Add(rh), MethodInvoker))
+                Catch
+                    Exit Sub
                 End Try
-            Next
+
+                For Each m As IGuildUser In DirectCast(role, SocketRole).Members.OrderBy(Function(mem) mem.Username)
+                    If assigned.Contains(m.Id) Then
+                        Continue For
+                    End If
+
+                    assigned.Add(m.Id)
+                    Dim holder As New Member With {
+                    .Dock = DockStyle.Bottom
+                }
+                    holder.Avatar.ImageLocation = m.GetAvatarUrl()
+                    holder.Username.Text = DisplayName(m)
+                    holder.Username.ForeColor = GetRoleColour(m)
+                    If m.Game.ToString().Length > 0 Then
+                        holder.Playing.Text = "Playing " & m.Game.ToString()
+                    End If
+
+                    Try
+                        rh.Invoke(DirectCast(Sub() rh.Controls.Add(holder), MethodInvoker))
+                        rh.Invoke(DirectCast(Sub() rh.Height = (45 * rh.Controls.Count - 45) + 30, MethodInvoker))
+                        Invoke(DirectCast(Sub() Refresh(), MethodInvoker))
+                    Catch ex As Exception
+                        ' Do Nothing
+                    End Try
+                Next
         Next
     End Sub
 
