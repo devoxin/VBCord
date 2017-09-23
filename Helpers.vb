@@ -70,6 +70,21 @@ Module Helpers
 
     End Function
 
+    Public Function GetStatusColour(ByVal status As UserStatus)
+        Select Case status
+            Case UserStatus.Online
+                Return Drawing.Color.FromArgb(87, 206, 64)
+            Case UserStatus.AFK
+                Return Drawing.Color.FromArgb(255, 204, 0)
+            Case UserStatus.Idle
+                Return Drawing.Color.FromArgb(255, 204, 0)
+            Case UserStatus.DoNotDisturb
+                Return Drawing.Color.FromArgb(249, 42, 27)
+            Case UserStatus.Offline
+                Return Drawing.Color.FromArgb(112, 110, 109)
+        End Select
+    End Function
+
     Public Function ResolveTime(ByVal time As DateTimeOffset)
 
         Dim localTime = time.ToLocalTime()

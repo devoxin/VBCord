@@ -25,7 +25,9 @@ Partial Class Member
         Me.Username = New System.Windows.Forms.Label()
         Me.Avatar = New System.Windows.Forms.PictureBox()
         Me.Playing = New System.Windows.Forms.Label()
+        Me.OnlineStatus = New System.Windows.Forms.PictureBox()
         CType(Me.Avatar, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.OnlineStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'Username
@@ -59,17 +61,27 @@ Partial Class Member
         Me.Playing.TabIndex = 2
         Me.Playing.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'OnlineStatus
+        '
+        Me.OnlineStatus.Location = New System.Drawing.Point(31, 31)
+        Me.OnlineStatus.Name = "OnlineStatus"
+        Me.OnlineStatus.Size = New System.Drawing.Size(8, 8)
+        Me.OnlineStatus.TabIndex = 3
+        Me.OnlineStatus.TabStop = False
+        '
         'Member
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer))
+        Me.Controls.Add(Me.OnlineStatus)
         Me.Controls.Add(Me.Playing)
         Me.Controls.Add(Me.Avatar)
         Me.Controls.Add(Me.Username)
         Me.Name = "Member"
         Me.Size = New System.Drawing.Size(206, 45)
         CType(Me.Avatar, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.OnlineStatus, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -77,4 +89,5 @@ Partial Class Member
     Friend WithEvents Username As Label
     Friend WithEvents Avatar As PictureBox
     Friend WithEvents Playing As Label
+    Friend WithEvents OnlineStatus As PictureBox
 End Class
