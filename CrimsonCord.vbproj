@@ -156,10 +156,10 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Forms\ServerOverview.Designer.vb">
-      <DependentUpon>ServerOverview.vb</DependentUpon>
+    <Compile Include="Forms\ServerManagement.Designer.vb">
+      <DependentUpon>ServerManagement.vb</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ServerOverview.vb">
+    <Compile Include="Forms\ServerManagement.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Helpers.vb" />
@@ -241,8 +241,8 @@
     <EmbeddedResource Include="Forms\ClientSettings.resx">
       <DependentUpon>ClientSettings.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ServerOverview.resx">
-      <DependentUpon>ServerOverview.vb</DependentUpon>
+    <EmbeddedResource Include="Forms\ServerManagement.resx">
+      <DependentUpon>ServerManagement.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Templates\Member.resx">
       <DependentUpon>Member.vb</DependentUpon>

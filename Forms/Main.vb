@@ -1,17 +1,15 @@
 ﻿Option Explicit On
 #Disable Warning BC42105 'Functions don't return. Doesn't really matter as they don't need to here.
-#Disable Warning BC42358 'Awaitable functions aren't awaited (Ignore warning from 'UpdateLatency())'
 
 Imports Discord
 Imports Discord.WebSocket
 
 Public Class Main
-    Private version As String = "1.0.8"
-
-    Public WithEvents Discord As DiscordSocketClient = New DiscordSocketClient(New DiscordSocketConfig With {
-                                                                               .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
-                                                                               .MessageCacheSize = 100
-                                                                               })
+    Public WithEvents Discord As DiscordSocketClient _
+        = New DiscordSocketClient(New DiscordSocketConfig With {
+        .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
+        .MessageCacheSize = 100
+                                  })
 
     Dim focussedServer As ULong
     Dim focussedChannel As ULong
@@ -26,13 +24,8 @@ Public Class Main
         Dim loginDialog As New Login
         If loginDialog.ShowDialog() = DialogResult.OK Then
             Try
-                If loginDialog.tokenType = "Bot" Then
-                    Await Discord.LoginAsync(TokenType.Bot, loginDialog.token)
-                    Await Discord.StartAsync()
-                Else
-                    Await Discord.LoginAsync(TokenType.User, loginDialog.token)
-                    Await Discord.StartAsync()
-                End If
+                Await Discord.LoginAsync(TokenType.Bot, loginDialog.token)
+                Await Discord.StartAsync()
                 Button2.Enabled = True
             Catch ex As Exception
                 Console.WriteLine($"Failed to login{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
@@ -245,7 +238,7 @@ Public Class Main
 
     End Function
 
-    Private Function UpdateLatency() As Task
+    Private Function UpdateLatency()
         Select Case voiceConnection.Latency
             Case Is <= 50
                 LatencyImage.Image = My.Resources.SIGNAL_3
@@ -491,7 +484,7 @@ Public Class Main
 
         Dim bots = members.Where(Function(member) member.IsBot).Count
 
-        With New ServerOverview
+        With New ServerManagement
             .ServerName.Text = $"{server.Name} ({server.Id})"
             .ServerIcon.ImageLocation = server.IconUrl
             .ServerOwner.Text = $"Owner: {owner.Username}#{owner.Discriminator} ({owner.Id})"
@@ -499,22 +492,6 @@ Public Class Main
             .ShowDialog()
         End With
 
-    End Sub
-
-    Private Sub FindToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FindToolStripMenuItem.Click
-        Dim input = InputBox("Enter Server ID:")
-
-        If Not ULong.TryParse(input, input) Then
-            MsgBox("Unable to parse ID.")
-            Exit Sub
-        End If
-
-        Dim server As IGuild = Discord.GetGuild(input)
-        If server Is Nothing Then
-            MsgBox("No servers found matching that ID")
-        End If
-
-        MsgBox(server.Name) ' TODO: Make this actually do something better
     End Sub
 
     Private Sub MembersList_ControlAdded(sender As Object, e As ControlEventArgs) Handles MembersList.ControlAdded

@@ -26,7 +26,6 @@ Partial Class Login
         Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.ThemedButton3 = New CrimsonCord.ThemedButton()
-        Me.ThemedButton2 = New CrimsonCord.ThemedButton()
         Me.ThemedButton1 = New CrimsonCord.ThemedButton()
         Me.CrimCordTheme1.SuspendLayout()
         Me.SuspendLayout()
@@ -38,7 +37,6 @@ Partial Class Login
         Me.CrimCordTheme1.Controls.Add(Me.TextBox1)
         Me.CrimCordTheme1.Controls.Add(Me.Label1)
         Me.CrimCordTheme1.Controls.Add(Me.ThemedButton3)
-        Me.CrimCordTheme1.Controls.Add(Me.ThemedButton2)
         Me.CrimCordTheme1.Controls.Add(Me.ThemedButton1)
         Me.CrimCordTheme1.DisplayClose = False
         Me.CrimCordTheme1.DisplayTitleBar = False
@@ -82,28 +80,14 @@ Partial Class Login
         Me.ThemedButton3.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.ThemedButton3.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
         Me.ThemedButton3.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ThemedButton3.Font = New System.Drawing.Font("Sansation", 9.0!)
         Me.ThemedButton3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer))
-        Me.ThemedButton3.Location = New System.Drawing.Point(120, 64)
+        Me.ThemedButton3.Location = New System.Drawing.Point(196, 64)
         Me.ThemedButton3.Name = "ThemedButton3"
         Me.ThemedButton3.Size = New System.Drawing.Size(84, 23)
         Me.ThemedButton3.TabIndex = 3
         Me.ThemedButton3.Text = "Exit"
         Me.ThemedButton3.UseVisualStyleBackColor = False
-        '
-        'ThemedButton2
-        '
-        Me.ThemedButton2.BackColor = System.Drawing.Color.FromArgb(CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer), CType(CType(65, Byte), Integer))
-        Me.ThemedButton2.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(CType(CType(85, Byte), Integer), CType(CType(85, Byte), Integer), CType(CType(85, Byte), Integer))
-        Me.ThemedButton2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
-        Me.ThemedButton2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
-        Me.ThemedButton2.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.ThemedButton2.ForeColor = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer))
-        Me.ThemedButton2.Location = New System.Drawing.Point(210, 64)
-        Me.ThemedButton2.Name = "ThemedButton2"
-        Me.ThemedButton2.Size = New System.Drawing.Size(84, 23)
-        Me.ThemedButton2.TabIndex = 2
-        Me.ThemedButton2.Text = "Login as User"
-        Me.ThemedButton2.UseVisualStyleBackColor = False
         '
         'ThemedButton1
         '
@@ -112,10 +96,11 @@ Partial Class Login
         Me.ThemedButton1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.ThemedButton1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
         Me.ThemedButton1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.ThemedButton1.Font = New System.Drawing.Font("Sansation", 9.0!)
         Me.ThemedButton1.ForeColor = System.Drawing.Color.FromArgb(CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer), CType(CType(175, Byte), Integer))
-        Me.ThemedButton1.Location = New System.Drawing.Point(300, 64)
+        Me.ThemedButton1.Location = New System.Drawing.Point(286, 64)
         Me.ThemedButton1.Name = "ThemedButton1"
-        Me.ThemedButton1.Size = New System.Drawing.Size(84, 23)
+        Me.ThemedButton1.Size = New System.Drawing.Size(98, 23)
         Me.ThemedButton1.TabIndex = 1
         Me.ThemedButton1.Text = "Login as Bot"
         Me.ThemedButton1.UseVisualStyleBackColor = False
@@ -141,7 +126,6 @@ Partial Class Login
 
     Friend WithEvents CrimCordTheme1 As CrimCordTheme
     Friend WithEvents ThemedButton1 As ThemedButton
-    Friend WithEvents ThemedButton2 As ThemedButton
     Friend WithEvents ThemedButton3 As ThemedButton
     Friend WithEvents TextBox1 As TextBox
     Friend WithEvents Label1 As Label
