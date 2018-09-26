@@ -27,10 +27,10 @@ Partial Class Main
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
         Me.ViewInfoToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CopyIDToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.FindToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.LeaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.FindToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
         Me.CrimCordTheme1 = New CrimsonCord.CrimCordTheme()
         Me.MessageContainer = New System.Windows.Forms.Panel()
         Me.AttachmentPanel = New System.Windows.Forms.Panel()
@@ -101,6 +101,19 @@ Partial Class Main
         Me.CopyIDToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
         Me.CopyIDToolStripMenuItem.Text = "Copy ID"
         '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(134, 6)
+        '
+        'FindToolStripMenuItem
+        '
+        Me.FindToolStripMenuItem.Font = New System.Drawing.Font("Calibri", 10.0!)
+        Me.FindToolStripMenuItem.ForeColor = System.Drawing.Color.White
+        Me.FindToolStripMenuItem.Name = "FindToolStripMenuItem"
+        Me.FindToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
+        Me.FindToolStripMenuItem.Text = "Find Server"
+        '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
@@ -114,22 +127,9 @@ Partial Class Main
         Me.LeaveToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
         Me.LeaveToolStripMenuItem.Text = "Leave"
         '
-        'FindToolStripMenuItem
-        '
-        Me.FindToolStripMenuItem.Font = New System.Drawing.Font("Calibri", 10.0!)
-        Me.FindToolStripMenuItem.ForeColor = System.Drawing.Color.White
-        Me.FindToolStripMenuItem.Name = "FindToolStripMenuItem"
-        Me.FindToolStripMenuItem.Size = New System.Drawing.Size(137, 22)
-        Me.FindToolStripMenuItem.Text = "Find Server"
-        '
-        'ToolStripSeparator2
-        '
-        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
-        Me.ToolStripSeparator2.Size = New System.Drawing.Size(134, 6)
-        '
         'CrimCordTheme1
         '
-        Me.CrimCordTheme1.AccentColor = System.Drawing.Color.White
+        Me.CrimCordTheme1.AccentColor = System.Drawing.Color.FromArgb(CType(CType(80, Byte), Integer), CType(CType(80, Byte), Integer), CType(CType(80, Byte), Integer))
         Me.CrimCordTheme1.BackColor = System.Drawing.Color.FromArgb(CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer))
         Me.CrimCordTheme1.Controls.Add(Me.MessageContainer)
         Me.CrimCordTheme1.Controls.Add(Me.AttachmentPanel)
@@ -146,8 +146,8 @@ Partial Class Main
         Me.CrimCordTheme1.Name = "CrimCordTheme1"
         Me.CrimCordTheme1.Size = New System.Drawing.Size(1232, 736)
         Me.CrimCordTheme1.TabIndex = 6
-        Me.CrimCordTheme1.TitleFont = New System.Drawing.Font("Lato", 10.0!)
-        Me.CrimCordTheme1.TitleText = "VBCord | Developed by Devoxin#0387"
+        Me.CrimCordTheme1.TitleFont = New System.Drawing.Font("Open Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CrimCordTheme1.TitleText = "VBCord"
         '
         'MessageContainer
         '
@@ -182,6 +182,7 @@ Partial Class Main
         Me.CloseAttachmentPanel.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.CloseAttachmentPanel.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
         Me.CloseAttachmentPanel.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.CloseAttachmentPanel.Font = New System.Drawing.Font("Sansation", 11.0!)
         Me.CloseAttachmentPanel.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
         Me.CloseAttachmentPanel.Location = New System.Drawing.Point(740, 0)
         Me.CloseAttachmentPanel.Name = "CloseAttachmentPanel"
@@ -245,6 +246,7 @@ Partial Class Main
         Me.AttachFile.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer), CType(CType(70, Byte), Integer))
         Me.AttachFile.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer), CType(CType(90, Byte), Integer))
         Me.AttachFile.FlatStyle = System.Windows.Forms.FlatStyle.Flat
+        Me.AttachFile.Font = New System.Drawing.Font("Sansation", 11.0!)
         Me.AttachFile.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
         Me.AttachFile.Location = New System.Drawing.Point(0, 0)
         Me.AttachFile.Name = "AttachFile"

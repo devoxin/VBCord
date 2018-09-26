@@ -23,9 +23,10 @@
             .Text = "New Form"
             .Dock = DockStyle.Left
             .ForeColor = Color.White
-            .Font = New Font("Open Sans Light", 9.75)
+            .Font = New Font("Open Sans Light", 10)
             .TextAlign = ContentAlignment.MiddleLeft
-            .AutoSize = True
+            .AutoSize = False
+            .Padding = New Padding(5, 0, 0, 0)
         End With
 
         With closebutton

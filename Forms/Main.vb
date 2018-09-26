@@ -139,10 +139,9 @@ Public Class Main
         End If
 
         MessageContainer.Controls.Clear()
-
         MessageContainer.SuspendLayout()
         Try
-            Dim msgs = Await channel.GetMessagesAsync(50, CacheMode.AllowDownload).FlattenAsync()
+            Dim msgs = Await channel.GetMessagesAsync(100, CacheMode.AllowDownload).FlattenAsync()
             msgs = msgs.Reverse()
 
             For Each m In msgs
@@ -216,7 +215,7 @@ Public Class Main
                               UserDiscrim.Text = $"#{Discord.CurrentUser.Discriminator}"
                           End Sub, MethodInvoker))
 
-        If Discord.Guilds.Count > 16 Then
+        If Servers.VerticalScroll.Visible Then
             Invoke(DirectCast(Sub()
                                   Servers.Width = 79
                                   UtilPanel.Width += 17
@@ -325,13 +324,13 @@ Public Class Main
         container.PictureBox1.ImageLocation = mUser.GetAvatarUrl
 
         If m.Attachments.FirstOrDefault IsNot Nothing AndAlso m.Attachments.FirstOrDefault.Url IsNot Nothing Then
-            container.LinkLabel1.Tag = m.Attachments.FirstOrDefault.Url
-            container.LinkLabel1.Visible = True
+            'container.LinkLabel1.Tag = m.Attachments.FirstOrDefault.Url
+            'container.LinkLabel1.Visible = True
         End If
 
         Using g = container.CreateGraphics
-            container.Height = CInt(g.MeasureString(mText, container.Label2.Font).Height + 70)
-            container.LinkLabel1.Top = container.Label2.Location.Y + CInt(IIf(mText.Length = 0, 5, 20))
+            container.Height = CInt(g.MeasureString(mText, container.Label2.Font).Height + 50)
+            'container.LinkLabel1.Top = container.Label2.Location.Y + CInt(IIf(mText.Length = 0, 5, 20))
         End Using
 
         MessageContainer.Controls.Add(container)
@@ -354,14 +353,16 @@ Public Class Main
         Dim members = Await g.GetUsersAsync(CacheMode.AllowDownload)
         Dim roles = g.Roles() _
             .Where(Function(role) (role.Position = 0 Or role.IsHoisted) AndAlso DirectCast(role, SocketRole).Members.Count > 0) _
-            .OrderByDescending(Function(role) role.Position).ToList() ' @everyone role or custom
+            .OrderByDescending(Function(role) role.Position) _
+            .Cast(Of SocketRole) _
+            .ToList()
 
         Dim assigned As New List(Of ULong)
 
         MembersList.Invoke(DirectCast(Sub() MembersList.SuspendLayout(), MethodInvoker))
         For Each role In roles
 
-            If DirectCast(role, SocketRole).Members.Where(Function(m) Not assigned.Contains(m.Id)).Count = 0 Then
+            If role.Members.Where(Function(m) Not assigned.Contains(m.Id)).Count = 0 Then
                 Continue For ' Ignore blank roles
             End If
 
@@ -378,7 +379,7 @@ Public Class Main
             End Try
 
             rh.Invoke(DirectCast(Sub() rh.SuspendLayout(), MethodInvoker))
-            For Each m As IGuildUser In DirectCast(role, SocketRole).Members.OrderBy(Function(mem) mem.Username)
+            For Each m As IGuildUser In role.Members.OrderBy(Function(mem) mem.Username)
                 If assigned.Contains(m.Id) Then
                     Continue For
                 End If
