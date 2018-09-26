@@ -1,44 +1,20 @@
-﻿Public Class CircularPictureBox : Inherits PictureBox
+﻿Imports System.Drawing.Drawing2D
 
-    Sub New()
+Public Class CircularPictureBox : Inherits PictureBox
 
-    End Sub
+    Protected Overrides Sub OnPaint(e As PaintEventArgs)
+        e.Graphics.InterpolationMode = InterpolationMode.HighQualityBilinear
+        e.Graphics.CompositingQuality = CompositingQuality.HighQuality
+        e.Graphics.PixelOffsetMode = PixelOffsetMode.HighQuality
+        e.Graphics.SmoothingMode = SmoothingMode.AntiAlias
 
-    Protected Overrides Sub OnPaint(pe As PaintEventArgs)
-
-        'Using bmp As New Bitmap(Width, Height)
-
-        '    Using grp As Graphics = Graphics.FromImage(Image)
-
-        '        grp.SmoothingMode = Drawing2D.SmoothingMode.AntiAlias
-
-        '        Using tb As New TextureBrush(Image)
-
-        '            tb.TranslateTransform(0, 0)
-
-        '            Using gp As New Drawing2D.GraphicsPath
-
-        '                gp.AddEllipse(0, 0, Width, Height)
-
-        '                grp.FillPath(tb, gp)
-
-        '            End Using
-
-        '        End Using
-
-        '    End Using
-
-        '    Image = bmp
-
-        'End Using
-
-        Using gp = New Drawing2D.GraphicsPath
+        Using gp As New GraphicsPath()
             gp.AddEllipse(0, 0, Width, Height)
-            Region = New Region(gp)
+            e.Graphics.SetClip(gp)
         End Using
 
-        MyBase.OnPaint(pe)
+        ' This isn't anti-aliased :/
 
+        MyBase.OnPaint(e)
     End Sub
-
 End Class

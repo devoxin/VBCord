@@ -358,6 +358,7 @@ Public Class Main
 
         Dim assigned As New List(Of ULong)
 
+        MembersList.Invoke(DirectCast(Sub() MembersList.SuspendLayout(), MethodInvoker))
         For Each role In roles
 
             If DirectCast(role, SocketRole).Members.Where(Function(m) Not assigned.Contains(m.Id)).Count = 0 Then
@@ -403,6 +404,7 @@ Public Class Main
             Next
             rh.Invoke(DirectCast(Sub() rh.ResumeLayout(), MethodInvoker))
         Next
+        MembersList.Invoke(DirectCast(Sub() MembersList.ResumeLayout(), MethodInvoker))
     End Sub
 
 #End Region

@@ -23,9 +23,9 @@ Partial Class Member
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.Username = New System.Windows.Forms.Label()
-        Me.Avatar = New System.Windows.Forms.PictureBox()
         Me.Playing = New System.Windows.Forms.Label()
-        Me.OnlineStatus = New System.Windows.Forms.PictureBox()
+        Me.Avatar = New CrimsonCord.CircularPictureBox()
+        Me.OnlineStatus = New CrimsonCord.CircularPictureBox()
         CType(Me.Avatar, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.OnlineStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -41,15 +41,6 @@ Partial Class Member
         Me.Username.TabIndex = 0
         Me.Username.Text = "Username"
         '
-        'Avatar
-        '
-        Me.Avatar.Location = New System.Drawing.Point(3, 3)
-        Me.Avatar.Name = "Avatar"
-        Me.Avatar.Size = New System.Drawing.Size(36, 36)
-        Me.Avatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.Avatar.TabIndex = 1
-        Me.Avatar.TabStop = False
-        '
         'Playing
         '
         Me.Playing.AutoEllipsis = True
@@ -61,12 +52,22 @@ Partial Class Member
         Me.Playing.TabIndex = 2
         Me.Playing.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
+        'Avatar
+        '
+        Me.Avatar.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
+        Me.Avatar.Location = New System.Drawing.Point(3, 3)
+        Me.Avatar.Name = "Avatar"
+        Me.Avatar.Size = New System.Drawing.Size(36, 36)
+        Me.Avatar.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.Avatar.TabIndex = 4
+        Me.Avatar.TabStop = False
+        '
         'OnlineStatus
         '
         Me.OnlineStatus.Location = New System.Drawing.Point(31, 31)
         Me.OnlineStatus.Name = "OnlineStatus"
         Me.OnlineStatus.Size = New System.Drawing.Size(8, 8)
-        Me.OnlineStatus.TabIndex = 3
+        Me.OnlineStatus.TabIndex = 5
         Me.OnlineStatus.TabStop = False
         '
         'Member
@@ -76,8 +77,8 @@ Partial Class Member
         Me.BackColor = System.Drawing.Color.FromArgb(CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer), CType(CType(50, Byte), Integer))
         Me.Controls.Add(Me.OnlineStatus)
         Me.Controls.Add(Me.Playing)
-        Me.Controls.Add(Me.Avatar)
         Me.Controls.Add(Me.Username)
+        Me.Controls.Add(Me.Avatar)
         Me.Name = "Member"
         Me.Size = New System.Drawing.Size(206, 45)
         CType(Me.Avatar, System.ComponentModel.ISupportInitialize).EndInit()
@@ -87,7 +88,7 @@ Partial Class Member
     End Sub
 
     Friend WithEvents Username As Label
-    Friend WithEvents Avatar As PictureBox
     Friend WithEvents Playing As Label
-    Friend WithEvents OnlineStatus As PictureBox
+    Friend WithEvents Avatar As CircularPictureBox
+    Friend WithEvents OnlineStatus As CircularPictureBox
 End Class
