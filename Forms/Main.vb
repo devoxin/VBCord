@@ -190,6 +190,8 @@ Public Class Main
 
         Try
             voiceConnection = Await channel.ConnectAsync()
+        Catch ex As TaskCanceledException
+            ' REEEEEEEEEE
         Finally
             If voiceConnection.ConnectionState = ConnectionState.Connected Then
                 VoiceStatus.Text = "Voice Connected"
@@ -374,6 +376,7 @@ Public Class Main
                 Exit Sub
             End Try
 
+            rh.Invoke(DirectCast(Sub() rh.SuspendLayout(), MethodInvoker))
             For Each m As IGuildUser In DirectCast(role, SocketRole).Members.OrderBy(Function(mem) mem.Username)
                 If assigned.Contains(m.Id) Then
                     Continue For
@@ -388,17 +391,17 @@ Public Class Main
                 holder.Username.ForeColor = GetRoleColour(m)
                 holder.OnlineStatus.BackColor = GetStatusColour(m.Status)
                 If m.Activity IsNot Nothing Then
-                    holder.Playing.Text = $"{m.Activity.Type} ${m.Activity.Name}"
+                    holder.Playing.Text = $"{m.Activity.Type} {m.Activity.Name}"
                 End If
 
                 Try
                     rh.Invoke(DirectCast(Sub() rh.Controls.Add(holder), MethodInvoker))
                     rh.Invoke(DirectCast(Sub() rh.Height = (45 * rh.Controls.Count - 45) + 30, MethodInvoker))
-                    Invoke(DirectCast(Sub() Refresh(), MethodInvoker))
                 Catch ex As Exception
                     ' Do Nothing
                 End Try
             Next
+            rh.Invoke(DirectCast(Sub() rh.ResumeLayout(), MethodInvoker))
         Next
     End Sub
 
