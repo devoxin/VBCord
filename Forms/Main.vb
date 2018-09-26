@@ -1,9 +1,12 @@
 ﻿#Disable Warning BC42105 'Functions don't return. Doesn't really matter as they don't need to here.
 
+Imports CrimsonCord.Logger
 Imports Discord
 Imports Discord.WebSocket
 
 Public Class Main
+    Private Logger As Logger = New Logger()
+
     Public WithEvents Discord As DiscordShardedClient = New DiscordShardedClient(
         New DiscordSocketConfig With {
         .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
@@ -18,6 +21,7 @@ Public Class Main
     Public DisplayHidden As Boolean = True
 
     Private HelperThread As Threading.Thread
+    Private isShutdown = False
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim loginDialog As New Login
@@ -26,11 +30,14 @@ Public Class Main
                 Await Discord.LoginAsync(TokenType.Bot, loginDialog.token)
                 Await Discord.StartAsync()
 
-                Console.WriteLine($"Starting client with {Discord.Shards.Count} shards")
+                Logger.Log(LogLevel.INFO, $"Starting client with {Discord.Shards.Count} shards")
                 Button2.Enabled = True
             Catch ex As Exception
-                Console.WriteLine($"Failed to login{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
+                Logger.Log(LogLevel.FATAL, $"Failed to login{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
                 MsgBox("An invalid token was specified, or an error occurred.")
+
+                isShutdown = True
+                Application.Exit()
             End Try
         End If
     End Sub
@@ -156,7 +163,7 @@ Public Class Main
                     End If
                     AddMessage(m.Author, ResolveRestMentions(m), attachment, m)
                 Catch ex As Exception
-                    Console.WriteLine($"Failed to append message to container{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
+                    Logger.Log(LogLevel.WARN, $"Failed to append message to container{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
                 End Try
             Next
         Catch
@@ -170,7 +177,7 @@ Public Class Main
             Try
                 Await Discord.GetGuild(focussedServer).GetTextChannel(focussedChannel).SendMessageAsync(MessageInput.Text)
             Catch ex As Exception
-                Console.WriteLine($"Failed to send message to channel{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
+                Logger.Log(LogLevel.WARN, $"Failed to send message to channel{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
             End Try
             MessageInput.Clear()
         End If
@@ -209,7 +216,9 @@ Public Class Main
 
 #Region "Client Events"
 
-    Private Function OnReady() As Task Handles Discord.ShardConnected
+    Private Function OnReady(ByVal client As DiscordSocketClient) As Task Handles Discord.ShardConnected
+        Logger.Log(LogLevel.INFO, $"Shard {client.ShardId}/{Discord.Shards.Count} ready")
+
         Dim readyShards = Discord.Shards.Where(
             Function(shard) shard.ConnectionState = ConnectionState.Connected
             ).Count
@@ -431,8 +440,12 @@ Public Class Main
     End Sub
 
     Private Async Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        Await Discord.StopAsync()
-        Await Discord.LogoutAsync()
+        If Not isShutdown Then
+            Await Discord.StopAsync()
+            Await Discord.LogoutAsync()
+        End If
+
+        Logger.Close()
     End Sub
 
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
@@ -460,7 +473,7 @@ Public Class Main
                 Await Discord.GetGuild(focussedServer).GetTextChannel(focussedChannel).SendFileAsync(ofd.FileName, MessageInput.Text, False)
                 AttachmentPanel.Visible = False
             Catch ex As Exception
-                Console.WriteLine($"Failed to send attachment to channel{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
+                Logger.Log(LogLevel.WARN, $"Failed to send attachment to channel{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
                 AttachmentStatus.Text = "Failed to send file"
                 CloseAttachmentPanel.Visible = True
             End Try
