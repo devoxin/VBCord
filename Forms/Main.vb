@@ -4,7 +4,7 @@ Imports Discord
 Imports Discord.WebSocket
 
 Public Class Main
-    Public WithEvents Discord As DiscordSocketClient = New DiscordSocketClient(
+    Public WithEvents Discord As DiscordShardedClient = New DiscordShardedClient(
         New DiscordSocketConfig With {
         .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
         .MessageCacheSize = 100
@@ -25,6 +25,8 @@ Public Class Main
             Try
                 Await Discord.LoginAsync(TokenType.Bot, loginDialog.token)
                 Await Discord.StartAsync()
+
+                Console.WriteLine($"Starting client with {Discord.Shards.Count} shards")
                 Button2.Enabled = True
             Catch ex As Exception
                 Console.WriteLine($"Failed to login{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
@@ -207,7 +209,14 @@ Public Class Main
 
 #Region "Client Events"
 
-    Private Function OnReady() As Task Handles Discord.Ready
+    Private Function OnReady() As Task Handles Discord.ShardConnected
+        Dim readyShards = Discord.Shards.Where(
+            Function(shard) shard.ConnectionState = ConnectionState.Connected
+            ).Count
+
+        If Not readyShards = Discord.Shards.Count Then
+            Return Nothing
+        End If
 
         Invoke(DirectCast(Sub()
                               Username.Text = Discord.CurrentUser.Username
@@ -224,12 +233,12 @@ Public Class Main
 
         For Each g As SocketGuild In Discord.Guilds
             Dim pb As New PictureBox With {
-                .Dock = DockStyle.Top,
-                .Height = 62,
-                .SizeMode = PictureBoxSizeMode.Zoom,
-                .Tag = g.Id,
-                .ContextMenuStrip = ContextMenuStrip1
-            }
+                    .Dock = DockStyle.Top,
+                    .Height = 62,
+                    .SizeMode = PictureBoxSizeMode.Zoom,
+                    .Tag = g.Id,
+                    .ContextMenuStrip = ContextMenuStrip1
+                }
             If g.IconUrl IsNot Nothing Then
                 pb.ImageLocation = g.IconUrl.Replace("jpg", "png")
             Else
