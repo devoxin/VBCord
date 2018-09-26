@@ -1,15 +1,14 @@
-﻿Option Explicit On
-#Disable Warning BC42105 'Functions don't return. Doesn't really matter as they don't need to here.
+﻿#Disable Warning BC42105 'Functions don't return. Doesn't really matter as they don't need to here.
 
 Imports Discord
 Imports Discord.WebSocket
 
 Public Class Main
-    Public WithEvents Discord As DiscordSocketClient _
-        = New DiscordSocketClient(New DiscordSocketConfig With {
+    Public WithEvents Discord As DiscordSocketClient = New DiscordSocketClient(
+        New DiscordSocketConfig With {
         .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
         .MessageCacheSize = 100
-                                  })
+        })
 
     Dim focussedServer As ULong
     Dim focussedChannel As ULong
@@ -36,11 +35,11 @@ Public Class Main
 
     Private Async Sub SwitchServer(ByVal sender As Object, e As EventArgs)
         Dim pb = DirectCast(sender, PictureBox)
-        If pb.Tag = focussedServer Then
+        If CULng(pb.Tag) = focussedServer Then
             Exit Sub
         End If
 
-        focussedServer = pb.Tag
+        focussedServer = CULng(pb.Tag)
         focussedChannel = 0
 
         If HelperThread IsNot Nothing Then
@@ -63,7 +62,7 @@ Public Class Main
 
         If (Not DisplayHidden) Then
             txtChannels = txtChannels _
-                .Where(Function(channel) _member.GetPermissions(channel).ReadMessages) _
+                .Where(Function(channel) _member.GetPermissions(channel).ViewChannel) _
                 .OrderByDescending(Function(channel) channel.Position).ToList()
         Else
             txtChannels = txtChannels _
@@ -73,6 +72,7 @@ Public Class Main
         vcChannels = vcChannels _
             .OrderByDescending(Function(channel) channel.Position).ToList()
 
+        TextChannels.SuspendLayout()
         For Each c As ITextChannel In txtChannels
             Dim btn As New ThemedButton With {
                 .Dock = DockStyle.Top,
@@ -85,7 +85,9 @@ Public Class Main
             AddHandler btn.Click, AddressOf SwitchChannel
             TextChannels.Controls.Add(btn)
         Next
+        TextChannels.ResumeLayout()
 
+        VoiceChannels.SuspendLayout()
         For Each c As IVoiceChannel In vcChannels
             Dim btn As New ThemedButton With {
                 .Enabled = _member.GetPermissions(c).Connect,
@@ -99,8 +101,9 @@ Public Class Main
             AddHandler btn.Click, AddressOf JoinVoiceChannel
             VoiceChannels.Controls.Add(btn)
         Next
+        VoiceChannels.ResumeLayout()
 
-        If (Await server.GetUsersAsync()).Count <= 300 Then
+        If DirectCast(server.EveryoneRole, SocketRole).Members.Count <= 500 Then
             HelperThread = New Threading.Thread(Sub() ImportMembers(server))
             HelperThread.Start()
         End If
@@ -109,12 +112,12 @@ Public Class Main
 
     Private Async Sub SwitchChannel(ByVal sender As Object, e As EventArgs)
         Dim btn = DirectCast(sender, Button)
-        If focussedChannel = btn.Tag Then
+        If focussedChannel = CULng(btn.Tag) Then
             Exit Sub
         End If
-        focussedChannel = btn.Tag
+        focussedChannel = CULng(btn.Tag)
 
-        Dim channel As ITextChannel = Discord.GetChannel(focussedChannel)
+        Dim channel As ITextChannel = CType(Discord.GetChannel(focussedChannel), ITextChannel)
         ChannelName.Text = channel.Name
         ChannelTopic.Text = channel.Topic
 
@@ -137,8 +140,9 @@ Public Class Main
 
         MessageContainer.Controls.Clear()
 
+        MessageContainer.SuspendLayout()
         Try
-            Dim msgs = Await channel.GetMessagesAsync(50, CacheMode.AllowDownload).Flatten()
+            Dim msgs = Await channel.GetMessagesAsync(50, CacheMode.AllowDownload).FlattenAsync()
             msgs = msgs.Reverse()
 
             For Each m In msgs
@@ -150,14 +154,13 @@ Public Class Main
                         End If
                     End If
                     AddMessage(m.Author, ResolveRestMentions(m), attachment, m)
-                    Refresh()
-                    Application.DoEvents()
                 Catch ex As Exception
                     Console.WriteLine($"Failed to append message to container{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
                 End Try
             Next
         Catch
         End Try
+        MessageContainer.ResumeLayout()
     End Sub
 
     Private Async Sub TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles MessageInput.KeyDown
@@ -316,7 +319,7 @@ Public Class Main
         container.Label1.Text = mUser.Username
         container.Label1.Tag = mUser.Id
         container.Label2.Text = mText
-        container.Timestamp.Text = ResolveTime(m.Timestamp)
+        container.Timestamp.Text = CType(ResolveTime(m.Timestamp), String)
         container.PictureBox1.ImageLocation = mUser.GetAvatarUrl
 
         If m.Attachments.FirstOrDefault IsNot Nothing AndAlso m.Attachments.FirstOrDefault.Url IsNot Nothing Then
@@ -325,8 +328,8 @@ Public Class Main
         End If
 
         Using g = container.CreateGraphics
-            container.Height = g.MeasureString(mText, container.Label2.Font).Height + 70
-            container.LinkLabel1.Top = container.Label2.Location.Y + IIf(mText.Length = 0, 5, 20)
+            container.Height = CInt(g.MeasureString(mText, container.Label2.Font).Height + 70)
+            container.LinkLabel1.Top = container.Label2.Location.Y + CInt(IIf(mText.Length = 0, 5, 20))
         End Using
 
         MessageContainer.Controls.Add(container)
@@ -335,9 +338,9 @@ Public Class Main
     Private Sub TextChannels_ControlAdded(sender As Object, e As ControlEventArgs) Handles TextChannels.ControlAdded, VoiceChannels.ControlAdded, TextChannels.ControlRemoved, VoiceChannels.ControlRemoved
         Dim panel As Panel = DirectCast(sender, Panel)
         If panel.Name = "VoiceChannels" Then
-            panel.Height = (30 * panel.Controls.Count)
+            panel.Height = 30 * panel.Controls.Count
         Else
-            panel.Height = (30 * (panel.Controls.Count + 1))
+            panel.Height = 30 * (panel.Controls.Count + 1)
         End If
     End Sub
 
@@ -346,7 +349,7 @@ Public Class Main
     End Sub
 
     Private Async Sub ImportMembers(ByVal g As IGuild)
-        Dim members = Await g.GetUsersAsync(CacheMode.CacheOnly)
+        Dim members = Await g.GetUsersAsync(CacheMode.AllowDownload)
         Dim roles = g.Roles() _
             .Where(Function(role) (role.Position = 0 Or role.IsHoisted) AndAlso DirectCast(role, SocketRole).Members.Count > 0) _
             .OrderByDescending(Function(role) role.Position).ToList() ' @everyone role or custom
@@ -384,8 +387,8 @@ Public Class Main
                 holder.Username.Text = DisplayName(m)
                 holder.Username.ForeColor = GetRoleColour(m)
                 holder.OnlineStatus.BackColor = GetStatusColour(m.Status)
-                If m.Game.ToString().Length > 0 Then
-                    holder.Playing.Text = "Playing " & m.Game.ToString()
+                If m.Activity IsNot Nothing Then
+                    holder.Playing.Text = $"{m.Activity.Type} ${m.Activity.Name}"
                 End If
 
                 Try

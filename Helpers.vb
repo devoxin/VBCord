@@ -82,6 +82,8 @@ Module Helpers
                 Return Drawing.Color.FromArgb(249, 42, 27)
             Case UserStatus.Offline
                 Return Drawing.Color.FromArgb(112, 110, 109)
+            Case Else
+                Return Drawing.Color.FromArgb(112, 110, 109)
         End Select
     End Function
 
