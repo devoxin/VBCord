@@ -32,6 +32,7 @@ Partial Class Main
         Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.LeaveToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.CrimCordTheme1 = New CrimsonCord.CrimCordTheme()
+        Me.MessageContainer = New CrimsonCord.CustomPanel()
         Me.AttachmentPanel = New System.Windows.Forms.Panel()
         Me.CloseAttachmentPanel = New CrimsonCord.ThemedButton()
         Me.AttachmentStatus = New System.Windows.Forms.Label()
@@ -62,7 +63,6 @@ Partial Class Main
         Me.Username = New System.Windows.Forms.Label()
         Me.UserAvatar = New System.Windows.Forms.PictureBox()
         Me.MembersList = New System.Windows.Forms.Panel()
-        Me.MessageContainer = New CrimsonCord.CustomPanel()
         Me.ContextMenuStrip1.SuspendLayout()
         Me.CrimCordTheme1.SuspendLayout()
         Me.AttachmentPanel.SuspendLayout()
@@ -148,6 +148,17 @@ Partial Class Main
         Me.CrimCordTheme1.TabIndex = 6
         Me.CrimCordTheme1.TitleFont = New System.Drawing.Font("Open Sans", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CrimCordTheme1.TitleText = "VBCord"
+        '
+        'MessageContainer
+        '
+        Me.MessageContainer.AutoScroll = True
+        Me.MessageContainer.AutoScrollMinSize = New System.Drawing.Size(10, 10)
+        Me.MessageContainer.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
+        Me.MessageContainer.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.MessageContainer.Location = New System.Drawing.Point(240, 61)
+        Me.MessageContainer.Name = "MessageContainer"
+        Me.MessageContainer.Size = New System.Drawing.Size(786, 583)
+        Me.MessageContainer.TabIndex = 14
         '
         'AttachmentPanel
         '
@@ -275,7 +286,7 @@ Partial Class Main
         Me.ChannelName.Location = New System.Drawing.Point(0, 0)
         Me.ChannelName.MaximumSize = New System.Drawing.Size(300, 0)
         Me.ChannelName.Name = "ChannelName"
-        Me.ChannelName.Size = New System.Drawing.Size(93, 0)
+        Me.ChannelName.Size = New System.Drawing.Size(93, 34)
         Me.ChannelName.TabIndex = 9
         Me.ChannelName.Text = "No Channel"
         Me.ChannelName.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
@@ -360,6 +371,7 @@ Partial Class Main
         'Servers
         '
         Me.Servers.AutoScroll = True
+        Me.Servers.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
         Me.Servers.Dock = System.Windows.Forms.DockStyle.Left
         Me.Servers.Location = New System.Drawing.Point(0, 0)
         Me.Servers.Name = "Servers"
@@ -507,17 +519,6 @@ Partial Class Main
         Me.MembersList.Name = "MembersList"
         Me.MembersList.Size = New System.Drawing.Size(206, 709)
         Me.MembersList.TabIndex = 13
-        '
-        'MessageContainer
-        '
-        Me.MessageContainer.AutoScroll = True
-        Me.MessageContainer.AutoScrollMinSize = New System.Drawing.Size(10, 10)
-        Me.MessageContainer.BackColor = System.Drawing.Color.FromArgb(CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer), CType(CType(60, Byte), Integer))
-        Me.MessageContainer.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.MessageContainer.Location = New System.Drawing.Point(240, 61)
-        Me.MessageContainer.Name = "MessageContainer"
-        Me.MessageContainer.Size = New System.Drawing.Size(786, 583)
-        Me.MessageContainer.TabIndex = 14
         '
         'Main
         '

@@ -216,15 +216,16 @@ Public Class Main
 
 #Region "Client Events"
 
-    Private Function OnReady(ByVal client As DiscordSocketClient) As Task Handles Discord.ShardConnected
+    Private Async Function OnReady(ByVal client As DiscordSocketClient) As Task Handles Discord.ShardConnected
         Logger.Log(LogLevel.INFO, $"Shard {client.ShardId}/{Discord.Shards.Count} ready")
+        Await Task.Delay(2500)
 
         Dim readyShards = Discord.Shards.Where(
             Function(shard) shard.ConnectionState = ConnectionState.Connected
             ).Count
 
         If Not readyShards = Discord.Shards.Count Then
-            Return Nothing
+            Return 
         End If
 
         Invoke(DirectCast(Sub()
@@ -232,13 +233,6 @@ Public Class Main
                               UserAvatar.ImageLocation = Discord.CurrentUser.GetAvatarUrl
                               UserDiscrim.Text = $"#{Discord.CurrentUser.Discriminator}"
                           End Sub, MethodInvoker))
-
-        If Servers.VerticalScroll.Visible Then
-            Invoke(DirectCast(Sub()
-                                  Servers.Width = 79
-                                  UtilPanel.Width += 17
-                              End Sub, MethodInvoker))
-        End If
 
         For Each g As SocketGuild In Discord.Guilds
             Dim pb As New CircularPictureBox With {
@@ -257,6 +251,13 @@ Public Class Main
             AddHandler pb.Click, AddressOf SwitchServer
             AddServer(pb)
         Next
+
+        If Servers.VerticalScroll.Visible Then
+            Invoke(DirectCast(Sub()
+                                  Servers.Width = 79
+                                  UtilPanel.Width += 17
+                              End Sub, MethodInvoker))
+        End If
 
     End Function
 
