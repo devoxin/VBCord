@@ -228,6 +228,9 @@
     <Compile Include="Templates\RoleUserList.vb">
       <SubType>UserControl</SubType>
     </Compile>
+    <Compile Include="Templates\ScrollPanel.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Templates\ThemedButton.vb">
       <SubType>Component</SubType>
     </Compile>

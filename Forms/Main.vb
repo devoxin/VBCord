@@ -21,7 +21,7 @@ Public Class Main
     Public DisplayHidden As Boolean = True
 
     Private HelperThread As Threading.Thread
-    Private isShutdown = False
+    Private shouldShutdown = False
 
     Private Async Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Dim loginDialog As New Login
@@ -32,11 +32,10 @@ Public Class Main
 
                 Logger.Log(LogLevel.INFO, $"Starting client with {Discord.Shards.Count} shards")
                 Button2.Enabled = True
+                shouldShutdown = True
             Catch ex As Exception
                 Logger.Log(LogLevel.FATAL, $"Failed to login{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")
                 MsgBox("An invalid token was specified, or an error occurred.")
-
-                isShutdown = True
                 Application.Exit()
             End Try
         End If
@@ -169,6 +168,7 @@ Public Class Main
         Catch
         End Try
         MessageContainer.ResumeLayout()
+        MessageContainer.VerticalScroll.Value = MessageContainer.VerticalScroll.Maximum
     End Sub
 
     Private Async Sub TextBox1_KeyDown(sender As Object, e As KeyEventArgs) Handles MessageInput.KeyDown
@@ -241,7 +241,7 @@ Public Class Main
         End If
 
         For Each g As SocketGuild In Discord.Guilds
-            Dim pb As New PictureBox With {
+            Dim pb As New CircularPictureBox With {
                     .Dock = DockStyle.Top,
                     .Height = 62,
                     .SizeMode = PictureBoxSizeMode.Zoom,
@@ -306,6 +306,7 @@ Public Class Main
             If ctrl.Tag = msg.Id Then
                 ctrl.Invoke(DirectCast(Sub()
                                            ctrl.Label2.Text = ResolveMentions(sMsg)
+                                           ctrl.IdentifyLinks(sMsg.Content)
                                            ctrl.EditedIcon.Visible = True
                                        End Sub, MethodInvoker))
                 Exit For
@@ -348,9 +349,9 @@ Public Class Main
 
         Using g = container.CreateGraphics
             container.Height = CInt(g.MeasureString(mText, container.Label2.Font).Height + 50)
-            'container.LinkLabel1.Top = container.Label2.Location.Y + CInt(IIf(mText.Length = 0, 5, 20))
         End Using
 
+        container.IdentifyLinks(mText)
         MessageContainer.Controls.Add(container)
     End Sub
 
@@ -364,7 +365,7 @@ Public Class Main
     End Sub
 
     Private Sub MessageContainer_ControlAdded(sender As Object, e As ControlEventArgs) Handles MessageContainer.ControlAdded
-        MessageContainer.AutoScrollPosition = New Point(0, MessageContainer.VerticalScroll.Maximum)
+        MessageContainer.VerticalScroll.Value = MessageContainer.VerticalScroll.Maximum
     End Sub
 
     Private Async Sub ImportMembers(ByVal g As IGuild)
@@ -440,7 +441,7 @@ Public Class Main
     End Sub
 
     Private Async Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
-        If Not isShutdown Then
+        If shouldShutdown Then
             Await Discord.StopAsync()
             Await Discord.LogoutAsync()
         End If

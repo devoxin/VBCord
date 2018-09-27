@@ -24,17 +24,17 @@ Partial Class Message
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Message))
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.Label2 = New System.Windows.Forms.Label()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.EditedIcon = New System.Windows.Forms.PictureBox()
-        Me.Timestamp = New System.Windows.Forms.Label()
-        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Label2 = New System.Windows.Forms.LinkLabel()
         Me.Panel3 = New System.Windows.Forms.Panel()
+        Me.Timestamp = New System.Windows.Forms.Label()
+        Me.EditedIcon = New System.Windows.Forms.PictureBox()
+        Me.Panel2 = New System.Windows.Forms.Panel()
         Me.PictureBox1 = New CrimsonCord.CircularPictureBox()
         Me.Panel1.SuspendLayout()
+        Me.Panel3.SuspendLayout()
         CType(Me.EditedIcon, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
-        Me.Panel3.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -52,17 +52,6 @@ Partial Class Message
         Me.Label1.TabIndex = 1
         Me.Label1.Text = "Username"
         '
-        'Label2
-        '
-        Me.Label2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Label2.Font = New System.Drawing.Font("Open Sans", 10.0!)
-        Me.Label2.ForeColor = System.Drawing.Color.White
-        Me.Label2.Location = New System.Drawing.Point(40, 25)
-        Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(461, 25)
-        Me.Label2.TabIndex = 2
-        Me.Label2.Text = "Body"
-        '
         'Panel1
         '
         Me.Panel1.Controls.Add(Me.Label2)
@@ -74,17 +63,34 @@ Partial Class Message
         Me.Panel1.Size = New System.Drawing.Size(501, 50)
         Me.Panel1.TabIndex = 3
         '
-        'EditedIcon
+        'Label2
         '
-        Me.EditedIcon.BackgroundImage = CType(resources.GetObject("EditedIcon.BackgroundImage"), System.Drawing.Image)
-        Me.EditedIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
-        Me.EditedIcon.Dock = System.Windows.Forms.DockStyle.Right
-        Me.EditedIcon.Location = New System.Drawing.Point(436, 0)
-        Me.EditedIcon.Name = "EditedIcon"
-        Me.EditedIcon.Size = New System.Drawing.Size(25, 25)
-        Me.EditedIcon.TabIndex = 3
-        Me.EditedIcon.TabStop = False
-        Me.EditedIcon.Visible = False
+        Me.Label2.ActiveLinkColor = System.Drawing.Color.DodgerBlue
+        Me.Label2.DisabledLinkColor = System.Drawing.Color.DodgerBlue
+        Me.Label2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Label2.Font = New System.Drawing.Font("Open Sans", 10.0!)
+        Me.Label2.ForeColor = System.Drawing.Color.White
+        Me.Label2.LinkArea = New System.Windows.Forms.LinkArea(0, 0)
+        Me.Label2.LinkBehavior = System.Windows.Forms.LinkBehavior.NeverUnderline
+        Me.Label2.LinkColor = System.Drawing.Color.DodgerBlue
+        Me.Label2.Location = New System.Drawing.Point(40, 25)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(0, 0, 3, 0)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(461, 25)
+        Me.Label2.TabIndex = 7
+        Me.Label2.Text = "Body"
+        Me.Label2.VisitedLinkColor = System.Drawing.Color.DodgerBlue
+        '
+        'Panel3
+        '
+        Me.Panel3.Controls.Add(Me.Timestamp)
+        Me.Panel3.Controls.Add(Me.EditedIcon)
+        Me.Panel3.Controls.Add(Me.Label1)
+        Me.Panel3.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Panel3.Location = New System.Drawing.Point(40, 0)
+        Me.Panel3.Name = "Panel3"
+        Me.Panel3.Size = New System.Drawing.Size(461, 25)
+        Me.Panel3.TabIndex = 6
         '
         'Timestamp
         '
@@ -99,6 +105,18 @@ Partial Class Message
         Me.Timestamp.Text = "Today at 00:00"
         Me.Timestamp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'EditedIcon
+        '
+        Me.EditedIcon.BackgroundImage = CType(resources.GetObject("EditedIcon.BackgroundImage"), System.Drawing.Image)
+        Me.EditedIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center
+        Me.EditedIcon.Dock = System.Windows.Forms.DockStyle.Right
+        Me.EditedIcon.Location = New System.Drawing.Point(436, 0)
+        Me.EditedIcon.Name = "EditedIcon"
+        Me.EditedIcon.Size = New System.Drawing.Size(25, 25)
+        Me.EditedIcon.TabIndex = 3
+        Me.EditedIcon.TabStop = False
+        Me.EditedIcon.Visible = False
+        '
         'Panel2
         '
         Me.Panel2.Controls.Add(Me.PictureBox1)
@@ -107,17 +125,6 @@ Partial Class Message
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(40, 50)
         Me.Panel2.TabIndex = 5
-        '
-        'Panel3
-        '
-        Me.Panel3.Controls.Add(Me.Timestamp)
-        Me.Panel3.Controls.Add(Me.EditedIcon)
-        Me.Panel3.Controls.Add(Me.Label1)
-        Me.Panel3.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Panel3.Location = New System.Drawing.Point(40, 0)
-        Me.Panel3.Name = "Panel3"
-        Me.Panel3.Size = New System.Drawing.Size(461, 25)
-        Me.Panel3.TabIndex = 6
         '
         'PictureBox1
         '
@@ -138,20 +145,20 @@ Partial Class Message
         Me.Name = "Message"
         Me.Size = New System.Drawing.Size(501, 50)
         Me.Panel1.ResumeLayout(False)
-        CType(Me.EditedIcon, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel2.ResumeLayout(False)
         Me.Panel3.ResumeLayout(False)
         Me.Panel3.PerformLayout()
+        CType(Me.EditedIcon, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel2.ResumeLayout(False)
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
     Friend WithEvents Label1 As System.Windows.Forms.Label
-    Friend WithEvents Label2 As System.Windows.Forms.Label
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents Timestamp As System.Windows.Forms.Label
     Friend WithEvents EditedIcon As PictureBox
     Friend WithEvents PictureBox1 As CircularPictureBox
     Friend WithEvents Panel3 As Panel
     Friend WithEvents Panel2 As Panel
+    Friend WithEvents Label2 As LinkLabel
 End Class
