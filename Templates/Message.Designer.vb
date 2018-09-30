@@ -100,10 +100,10 @@ Partial Class Message
         Me.Timestamp.ForeColor = System.Drawing.Color.FromArgb(CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer), CType(CType(150, Byte), Integer))
         Me.Timestamp.Location = New System.Drawing.Point(95, 0)
         Me.Timestamp.Name = "Timestamp"
-        Me.Timestamp.Size = New System.Drawing.Size(87, 25)
+        Me.Timestamp.Size = New System.Drawing.Size(139, 25)
         Me.Timestamp.TabIndex = 2
         Me.Timestamp.Text = "Today at 00:00"
-        Me.Timestamp.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
+        Me.Timestamp.TextAlign = System.Drawing.ContentAlignment.MiddleLeft
         '
         'EditedIcon
         '
