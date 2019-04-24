@@ -12,4 +12,7 @@
         End With
     End Sub
 
+    Friend Sub Invoke()
+        Throw New NotImplementedException()
+    End Sub
 End Class

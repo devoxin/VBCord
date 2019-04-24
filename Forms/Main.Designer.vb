@@ -306,6 +306,7 @@ Partial Class Main
         '
         'ChannelContainer
         '
+        Me.ChannelContainer.AutoScroll = True
         Me.ChannelContainer.Controls.Add(Me.VoiceChannels)
         Me.ChannelContainer.Controls.Add(Me.Label2)
         Me.ChannelContainer.Controls.Add(Me.TextChannels)

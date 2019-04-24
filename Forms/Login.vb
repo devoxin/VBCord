@@ -15,4 +15,10 @@
     Private Sub Login_Shown(sender As Object, e As EventArgs) Handles Me.Shown
         TextBox1.Focus()
     End Sub
+
+    Private Sub TextBox1_KeyPress(sender As Object, e As KeyEventArgs) Handles TextBox1.KeyDown
+        If e.KeyValue = Keys.Enter Then
+            ThemedButton1.PerformClick()
+        End If
+    End Sub
 End Class

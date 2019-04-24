@@ -455,9 +455,7 @@ Public Class Main
     End Sub
 
     Private Sub ChannelName_TextChanged(sender As Object, e As EventArgs) Handles ChannelName.TextChanged
-        Using g As Graphics = ChannelName.CreateGraphics
-            ChannelName.Width = g.MeasureString(ChannelName.Text, ChannelName.Font).Width + 10
-        End Using
+        ChannelName.Width = TextRenderer.MeasureText(ChannelName.Text, ChannelName.Font).Width
     End Sub
 
     Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click

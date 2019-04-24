@@ -1,5 +1,4 @@
-﻿Imports System.Net
-Imports System.Text.RegularExpressions
+﻿Imports System.Text.RegularExpressions
 Imports Discord
 
 Module Helpers
