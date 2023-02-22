@@ -37,15 +37,12 @@ Module Helpers
             content = New Regex($"<#{c}>").Replace(content, $"#{Substitute(channel IsNot Nothing, Function() DirectCast(channel, IGuildChannel).Name, Function() "Invalid-Channel")}")
         Next
 
-        ' This is crude but w/e.
-        Dim guild = Main.Discord.Guilds.FirstOrNothing(Function(g) g.Channels.Any(Function(c) c.Id = msg.Channel.Id), Nothing)
+        Dim guild = DirectCast(msg.Channel, ITextChannel).Guild
 
-        If guild IsNot Nothing Then
-            For Each c In msg.MentionedRoleIds
-                Dim role = guild.GetRole(c)
-                content = New Regex($"<@&{c}>").Replace(content, $"@{Substitute(role IsNot Nothing, Function() role.Name, Function() "Invalid-Role")}")
-            Next
-        End If
+        For Each c In msg.MentionedRoleIds
+            Dim role = guild.GetRole(c)
+            content = New Regex($"<@&{c}>").Replace(content, $"@{Substitute(role IsNot Nothing, Function() role.Name, Function() "Invalid-Role")}")
+        Next
 
         Return content
     End Function

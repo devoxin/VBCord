@@ -66,23 +66,14 @@ Public Class Main
         Dim server As IGuild = Discord.GetGuild(focussedServer)
         ServerName.Text = server.Name
 
-        Dim txtChannels = Await server.GetTextChannelsAsync(CacheMode.CacheOnly)
-        Dim vcChannels = Await server.GetVoiceChannelsAsync(CacheMode.CacheOnly)
-
         Dim _member = Await server.GetCurrentUserAsync(CacheMode.AllowDownload)
 
-        If Not DisplayHidden Then
-            txtChannels = txtChannels _
-                .Where(Function(channel) _member.GetPermissions(channel).ViewChannel) _
-                .OrderByDescending(Function(channel) channel.Position).ToList()
-        Else
-            txtChannels = txtChannels _
-                .OrderByDescending(Function(channel) channel.Position).ToList()
-        End If
-
-        vcChannels = vcChannels _
-            .OrderByDescending(Function(channel) channel.Position).ToList()
-
+        Dim txtChannels = (Await server.GetTextChannelsAsync(CacheMode.CacheOnly)) _
+            .Where(Function(c) DisplayHidden Or _member.GetPermissions(c).ViewChannel) _
+            .OrderByDescending(Function(c) c.Position)
+        Dim vcChannels = (Await server.GetVoiceChannelsAsync(CacheMode.CacheOnly)) _
+            .Where(Function(c) DisplayHidden Or _member.GetPermissions(c).ViewChannel) _
+            .OrderByDescending(Function(c) c.Position)
 
         For Each c As ITextChannel In txtChannels
             Dim btn As New ThemedButton With {
@@ -438,7 +429,7 @@ Public Class Main
 
 #End Region
 
-    Private Sub Disconnect_Click(sender As Object, e As EventArgs) Handles Disconnect.Click
+    Private Async Sub Disconnect_Click(sender As Object, e As EventArgs) Handles Disconnect.Click
         Try
             voiceConnection.Dispose()
         Finally
