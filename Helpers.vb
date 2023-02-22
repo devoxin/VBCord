@@ -25,11 +25,6 @@ Module Helpers
 
         For Each u In msg.MentionedUserIds
             Dim user = Main.Discord.GetUser(u)
-            Dim replaceWith As String
-
-            If user IsNot Nothing Then
-                replaceWith = user.Username
-            End If
             content = New Regex($"<@!?{u}>").Replace(content, $"@{Substitute(user IsNot Nothing, Function() user.Username, Function() "Invalid-User")}")
         Next
 
