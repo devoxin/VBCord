@@ -54,6 +54,10 @@ Public Class Main
             HelperThread = Nothing
         End If
 
+        ChannelContainer.SuspendLayout()
+        TextChannels.SuspendLayout()
+        VoiceChannels.SuspendLayout()
+
         MessageContainer.Controls.Clear()
         TextChannels.Controls.Clear()
         VoiceChannels.Controls.Clear()
@@ -62,12 +66,12 @@ Public Class Main
         Dim server As IGuild = Discord.GetGuild(focussedServer)
         ServerName.Text = server.Name
 
-        Dim txtChannels = Await server.GetTextChannelsAsync()
-        Dim vcChannels = Await server.GetVoiceChannelsAsync()
+        Dim txtChannels = Await server.GetTextChannelsAsync(CacheMode.CacheOnly)
+        Dim vcChannels = Await server.GetVoiceChannelsAsync(CacheMode.CacheOnly)
 
         Dim _member = Await server.GetCurrentUserAsync(CacheMode.AllowDownload)
 
-        If (Not DisplayHidden) Then
+        If Not DisplayHidden Then
             txtChannels = txtChannels _
                 .Where(Function(channel) _member.GetPermissions(channel).ViewChannel) _
                 .OrderByDescending(Function(channel) channel.Position).ToList()
@@ -79,7 +83,7 @@ Public Class Main
         vcChannels = vcChannels _
             .OrderByDescending(Function(channel) channel.Position).ToList()
 
-        TextChannels.SuspendLayout()
+
         For Each c As ITextChannel In txtChannels
             Dim btn As New ThemedButton With {
                 .Dock = DockStyle.Top,
@@ -92,9 +96,7 @@ Public Class Main
             AddHandler btn.Click, AddressOf SwitchChannel
             TextChannels.Controls.Add(btn)
         Next
-        TextChannels.ResumeLayout()
 
-        VoiceChannels.SuspendLayout()
         For Each c As IVoiceChannel In vcChannels
             Dim btn As New ThemedButton With {
                 .Enabled = _member.GetPermissions(c).Connect,
@@ -108,7 +110,10 @@ Public Class Main
             AddHandler btn.Click, AddressOf JoinVoiceChannel
             VoiceChannels.Controls.Add(btn)
         Next
+
+        TextChannels.ResumeLayout()
         VoiceChannels.ResumeLayout()
+        ChannelContainer.ResumeLayout()
 
         If DirectCast(server.EveryoneRole, SocketRole).Members.Count <= 500 Then
             HelperThread = New Threading.Thread(Sub() ImportMembers(server))
@@ -154,11 +159,12 @@ Public Class Main
             For Each m In msgs
                 Try
                     Dim attachment = Nothing
-                    If (m.Attachments.Count > 0) Then
+                    If m.Attachments.Count > 0 Then
                         If Not m.Attachments(0).Url = Nothing Then
                             attachment = m.Attachments(0).Url
                         End If
                     End If
+
                     AddMessage(m.Author, ResolveRestMentions(m), attachment, m)
                 Catch ex As Exception
                     Logger.Log(LogLevel.WARN, $"Failed to append message to container{vbNewLine}{ex.Message}{vbNewLine}{ex.StackTrace}")

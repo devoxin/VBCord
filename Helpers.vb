@@ -1,4 +1,5 @@
-﻿Imports System.Text.RegularExpressions
+﻿Imports System.Runtime.CompilerServices
+Imports System.Text.RegularExpressions
 Imports Discord
 
 Module Helpers
@@ -15,12 +16,15 @@ Module Helpers
             content = New Regex($"<#{c.Id}>").Replace(content, $"#{c.Name}")
         Next
 
+        For Each r In msg.MentionedRoles
+            content = New Regex($"<@&{r.Id}>").Replace(content, $"@{r.Name}")
+        Next
+
         Return content
 
     End Function
 
     Public Function ResolveRestMentions(ByVal msg As IMessage)
-
         Dim content As String = msg.Content
 
         For Each u In msg.MentionedUserIds
@@ -33,8 +37,17 @@ Module Helpers
             content = New Regex($"<#{c}>").Replace(content, $"#{Substitute(channel IsNot Nothing, Function() DirectCast(channel, IGuildChannel).Name, Function() "Invalid-Channel")}")
         Next
 
-        Return content
+        ' This is crude but w/e.
+        Dim guild = Main.Discord.Guilds.FirstOrNothing(Function(g) g.Channels.Any(Function(c) c.Id = msg.Channel.Id), Nothing)
 
+        If guild IsNot Nothing Then
+            For Each c In msg.MentionedRoleIds
+                Dim role = guild.GetRole(c)
+                content = New Regex($"<@&{c}>").Replace(content, $"@{Substitute(role IsNot Nothing, Function() role.Name, Function() "Invalid-Role")}")
+            Next
+        End If
+
+        Return content
     End Function
 
     Public Function IsMentioned(ByVal m As IMessage)
@@ -95,7 +108,6 @@ Module Helpers
     End Function
 
     Public Function ResolveTime(ByVal time As DateTimeOffset)
-
         Dim localTime = time.ToLocalTime()
         Dim timestring As String = ""
 
@@ -108,7 +120,11 @@ Module Helpers
         timestring += localTime.DateTime.ToString("HH:mm")
 
         Return timestring
+    End Function
 
+    <Extension()>
+    Public Function FirstOrNothing(Of TSource)(source As IEnumerable(Of TSource), predicate As Func(Of TSource, Boolean), defaultValue As TSource) As TSource
+        Return source.Where(predicate).DefaultIfEmpty(Nothing).First()
     End Function
 
 End Module
