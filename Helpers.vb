@@ -25,12 +25,17 @@ Module Helpers
 
         For Each u In msg.MentionedUserIds
             Dim user = Main.Discord.GetUser(u)
-            content = New Regex($"<@!?{u}>").Replace(content, $"@{IIf(user IsNot Nothing, user.Username, "Invalid-User")}")
+            Dim replaceWith As String
+
+            If user IsNot Nothing Then
+                replaceWith = user.Username
+            End If
+            content = New Regex($"<@!?{u}>").Replace(content, $"@{Substitute(user IsNot Nothing, Function() user.Username, Function() "Invalid-User")}")
         Next
 
         For Each c In msg.MentionedChannelIds
             Dim channel = Main.Discord.GetChannel(c)
-            content = New Regex($"<#{c}>").Replace(content, $"#{IIf(channel IsNot Nothing, DirectCast(channel, IGuildChannel).Name, "Invalid-Channel")}")
+            content = New Regex($"<#{c}>").Replace(content, $"#{Substitute(channel IsNot Nothing, Function() DirectCast(channel, IGuildChannel).Name, Function() "Invalid-Channel")}")
         Next
 
         Return content
@@ -46,6 +51,14 @@ Module Helpers
             Return m.Nickname
         Else
             Return m.Username
+        End If
+    End Function
+
+    Public Function Substitute(Of T)(ByVal expr As Boolean, ByRef trueExpr As Func(Of T), ByRef falseExpr As Func(Of T)) As T
+        If expr Then
+            Return trueExpr()
+        Else
+            Return falseExpr()
         End If
     End Function
 

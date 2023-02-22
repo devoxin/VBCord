@@ -13,24 +13,24 @@ Public Class UserSettings
         CircularPictureBox1.ImageLocation = Main.Discord.CurrentUser.GetAvatarUrl()
     End Sub
 
-    Private Async Sub ThemedButton1_Click(sender As Object, e As EventArgs) Handles ThemedButton1.Click
+    Private Sub ThemedButton1_Click(sender As Object, e As EventArgs) Handles ThemedButton1.Click
         Dim ofd As New OpenFileDialog With {
             .Filter = "PNG|*.png",
             .Title = "Select Avatar"
             }
 
         If ofd.ShowDialog = DialogResult.OK Then
-            Dim res As Boolean = Await EditUser(Main.Discord.CurrentUser, ofd.FileName, Nothing)
+            'Dim res As Boolean = Await EditUser(Main.Discord.CurrentUser, ofd.FileName, Nothing)
             CircularPictureBox1.ImageLocation = Main.Discord.CurrentUser.GetAvatarUrl()
             Main.UserAvatar.ImageLocation = Main.Discord.CurrentUser.GetAvatarUrl()
             Application.DoEvents()
         End If
     End Sub
 
-    Private Async Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
+    Private Sub TextBox1_KeyPress(sender As Object, e As KeyPressEventArgs) Handles TextBox1.KeyPress
         If e.KeyChar = ChrW(Keys.Enter) Then
             e.Handled = True
-            Dim res As Boolean = Await EditUser(Main.Discord.CurrentUser, Nothing, TextBox1.Text)
+            'Dim res As Boolean = Await EditUser(Main.Discord.CurrentUser, Nothing, TextBox1.Text)
             Main.Username.Text = Main.Discord.CurrentUser.Username
             Main.UserDiscrim.Text = $"#{Main.Discord.CurrentUser.Discriminator}"
             Application.DoEvents()

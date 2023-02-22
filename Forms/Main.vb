@@ -9,7 +9,6 @@ Public Class Main
 
     Public WithEvents Discord As DiscordShardedClient = New DiscordShardedClient(
         New DiscordSocketConfig With {
-        .WebSocketProvider = Net.Providers.WS4Net.WS4NetProvider.Instance,
         .MessageCacheSize = 100
         })
 
@@ -243,7 +242,7 @@ Public Class Main
                     .ContextMenuStrip = ContextMenuStrip1
                 }
             If g.IconUrl IsNot Nothing Then
-                pb.ImageLocation = g.IconUrl.Replace("jpg", "png")
+                pb.SetImage(g.IconUrl.Replace("jpg", "png"))
             Else
                 pb.Image = My.Resources.NoServer
                 pb.SizeMode = PictureBoxSizeMode.Zoom
@@ -285,7 +284,7 @@ Public Class Main
         End If
     End Function
 
-    Private Function Discord_MessageDeleted(msg As Cacheable(Of IMessage, ULong), channel As ISocketMessageChannel) As Task Handles Discord.MessageDeleted
+    Private Function Discord_MessageDeleted(msg As Cacheable(Of IMessage, ULong), channel As Cacheable(Of IMessageChannel, ULong)) As Task Handles Discord.MessageDeleted
         If Not focussedChannel = channel.Id Or Not LogDeletions Then
             Exit Function
         End If
@@ -341,7 +340,7 @@ Public Class Main
         container.Label1.Tag = mUser.Id
         container.Label2.Text = mText
         container.Timestamp.Text = CType(ResolveTime(m.Timestamp), String)
-        container.PictureBox1.ImageLocation = mUser.GetAvatarUrl
+        container.PictureBox1.SetImage(mUser.GetAvatarUrl & "?size=512")
 
         If m.Attachments.FirstOrDefault IsNot Nothing AndAlso m.Attachments.FirstOrDefault.Url IsNot Nothing Then
             'container.LinkLabel1.Tag = m.Attachments.FirstOrDefault.Url
@@ -370,62 +369,65 @@ Public Class Main
     End Sub
 
     Private Async Sub ImportMembers(ByVal g As IGuild)
-        Dim members = Await g.GetUsersAsync(CacheMode.AllowDownload)
-        Dim roles = g.Roles() _
+        Try
+            Dim members = Await g.GetUsersAsync(CacheMode.AllowDownload)
+            Dim roles = g.Roles() _
             .Where(Function(role) (role.Position = 0 Or role.IsHoisted) AndAlso DirectCast(role, SocketRole).Members.Count > 0) _
             .OrderByDescending(Function(role) role.Position) _
             .Cast(Of SocketRole) _
             .ToList()
 
-        Dim assigned As New List(Of ULong)
+            Dim assigned As New List(Of ULong)
 
-        MembersList.Invoke(DirectCast(Sub() MembersList.SuspendLayout(), MethodInvoker))
-        For Each role In roles
+            MembersList.Invoke(DirectCast(Sub() MembersList.SuspendLayout(), MethodInvoker))
+            For Each role In roles
 
-            If role.Members.Where(Function(m) Not assigned.Contains(m.Id)).Count = 0 Then
-                Continue For ' Ignore blank roles
-            End If
-
-            Dim rh As New RoleUserList
-            With rh
-                .RoleName.Text = role.Name
-                .Dock = DockStyle.Top
-            End With
-
-            Try
-                MembersList.Invoke(DirectCast(Sub() MembersList.Controls.Add(rh), MethodInvoker))
-            Catch
-                Exit Sub
-            End Try
-
-            rh.Invoke(DirectCast(Sub() rh.SuspendLayout(), MethodInvoker))
-            For Each m As IGuildUser In role.Members.OrderBy(Function(mem) mem.Username)
-                If assigned.Contains(m.Id) Then
-                    Continue For
+                If role.Members.Where(Function(m) Not assigned.Contains(m.Id)).Count = 0 Then
+                    Continue For ' Ignore blank roles
                 End If
 
-                assigned.Add(m.Id)
-                Dim holder As New Member With {
-                    .Dock = DockStyle.Bottom
-                }
-                holder.Avatar.ImageLocation = m.GetAvatarUrl()
-                holder.Username.Text = DisplayName(m)
-                holder.Username.ForeColor = GetRoleColour(m)
-                holder.OnlineStatus.BackColor = GetStatusColour(m.Status)
-                If m.Activity IsNot Nothing Then
-                    holder.Playing.Text = $"{m.Activity.Type} {m.Activity.Name}"
-                End If
+                Dim rh As New RoleUserList
+                With rh
+                    .RoleName.Text = role.Name
+                    .Dock = DockStyle.Top
+                End With
 
                 Try
-                    rh.Invoke(DirectCast(Sub() rh.Controls.Add(holder), MethodInvoker))
-                    rh.Invoke(DirectCast(Sub() rh.Height = (45 * rh.Controls.Count - 45) + 30, MethodInvoker))
-                Catch ex As Exception
-                    ' Do Nothing
+                    MembersList.Invoke(DirectCast(Sub() MembersList.Controls.Add(rh), MethodInvoker))
+                Catch
+                    Exit Sub
                 End Try
+
+                rh.Invoke(DirectCast(Sub() rh.SuspendLayout(), MethodInvoker))
+                For Each m As IGuildUser In role.Members.OrderBy(Function(mem) mem.Username)
+                    If assigned.Contains(m.Id) Then
+                        Continue For
+                    End If
+
+                    assigned.Add(m.Id)
+                    Dim holder As New Member With {
+                        .Dock = DockStyle.Bottom
+                    }
+                    holder.Avatar.SetImage(m.GetAvatarUrl())
+                    holder.Username.Text = DisplayName(m)
+                    holder.Username.ForeColor = GetRoleColour(m)
+                    holder.OnlineStatus.BackColor = GetStatusColour(m.Status)
+                    If m.Activities.Count > 0 Then
+                        holder.Playing.Text = $"{m.Activities.First.Type} {m.Activities.First.Name}"
+                    End If
+
+                    Try
+                        rh.Invoke(DirectCast(Sub() rh.Controls.Add(holder), MethodInvoker))
+                        rh.Invoke(DirectCast(Sub() rh.Height = (45 * rh.Controls.Count - 45) + 30, MethodInvoker))
+                    Catch ex As Exception
+                        ' Do Nothing
+                    End Try
+                Next
+                rh.Invoke(DirectCast(Sub() rh.ResumeLayout(), MethodInvoker))
             Next
-            rh.Invoke(DirectCast(Sub() rh.ResumeLayout(), MethodInvoker))
-        Next
-        MembersList.Invoke(DirectCast(Sub() MembersList.ResumeLayout(), MethodInvoker))
+            MembersList.Invoke(DirectCast(Sub() MembersList.ResumeLayout(), MethodInvoker))
+        Catch
+        End Try
     End Sub
 
 #End Region
